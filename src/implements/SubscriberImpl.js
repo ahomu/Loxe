@@ -11,6 +11,10 @@ export default class SubscriberImpl {
   _subscriptions = [];
 
   /**
+   * Subscribe to observable, that holds the subscription.
+   * Become a memory leak if you subscribe using this method,
+   * the end of instance lifecycle manually subscription must discard.
+   *
    * @param {Observable} observable$
    * @param {function} observer
    */
@@ -22,7 +26,7 @@ export default class SubscriberImpl {
   }
 
   /**
-   *
+   * To discard all subscriptions of the observable.
    */
   static unsubscribeAll() {
     this._subscriptions.forEach((subscription) => subscription());

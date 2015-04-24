@@ -1,12 +1,19 @@
 'use strict';
 
 import React, {PropTypes} from 'react';
-import utils from '../utils';
 import Domain from './Domain';
 import SubscriberImpl from '../implements/SubscriberImpl';
 import ReflectionImpl from '../implements/ReflectionImpl';
 
 /**
+ * The Base Component class with Domain reference within the `this.context`.
+ * Domain context are inherited automatically to child components.
+ *
+ * Received the `observables` of the Domain, available for `componentWillReceiveObservables`.
+ * Component itself `observables`, Intent to use.
+ *
+ * TODO Future 'React.Component' not need to. mixin or impl class ?
+ *
  * @class Component
  * @implements SubscriberImpl
  */
@@ -34,16 +41,22 @@ export default class Component extends React.Component {
   };
 
   /**
+   * Observables itself.
+   *
    * @type {Object<string, Observable>}
    */
   observables = {};
 
   /**
+   * Subscriptions for observable of domain.
+   *
    * @type {Array<Subscription>}
    */
   _subscriptions = [];
 
   /**
+   * Delegate to `SubscriberImpl.subscribe()`
+   *
    * @param {Observable} observable$
    * @param {function} observer
    */
@@ -52,7 +65,7 @@ export default class Component extends React.Component {
   }
 
   /**
-   *
+   * Delegate to `SubscriberImpl.unsubscribeAll()`
    */
   unsubscribeAll() {
     SubscriberImpl.unsubscribeAll.apply(this, arguments);
@@ -68,15 +81,21 @@ export default class Component extends React.Component {
   }
 
   /**
+   * Child components has `this.context.$`, root component has `this.props.domain`._subscriptions
+   *
    * @returns {Domain}
    */
   getDomain() {
-    // child components has `this.context.$`, root component has `this.props.domain`
     return (this.context && this.context.$) || this.props.domain || null;
   }
 
   /**
    * shorthand of observable.emit/push
+   *
+   * ```
+   * this.publish(ComponentEvents.checkout$, this.state.products);
+   * ```
+   *
    * @param {String} observableName
    * @param {*} value
    */
@@ -85,21 +104,21 @@ export default class Component extends React.Component {
   }
 
   /**
-   *
+   * Start subscribe to Observable of the domain.
    */
   componentWillMount() {
     this.componentWillReceiveObservables(this.getDomain().observables);
   }
 
   /**
-   *
+   * To notify that the component mounted to the domain.
    */
   componentDidMount() {
     this.getDomain().onReceiveComponentDidMount(this);
   }
 
   /**
-   *
+   * To notify that the component unmounted to the domain.
    */
   componentWillUnmount() {
     this.getDomain().onReceiveComponentWillUnmount(this);
@@ -107,15 +126,26 @@ export default class Component extends React.Component {
   }
 
   /**
-   * must be implement
+   * Implement this method in a subclass, you handle the Observables.
+   *
+   * ```
+   * componentWillReceiveObservables(observables) {
+   *     this.subscribe(Bacon.combineTemplate({
+   *         products : observables[DomainEvents.cartProducts$],
+   *         total    : observables[DomainEvents.cartTotal$].map((v) => v + '')
+   *     }), this.setState.bind(this));
+   * }
+   * ```
+   *
+   * @abstract
    * @param {Object<string, Observables>} observables
    */
   componentWillReceiveObservables() {
-    //
+    // implement...
   }
 
   /**
-   * must be implement
+   * render :)
    */
   render() {
     return <div />;

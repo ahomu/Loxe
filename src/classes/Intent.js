@@ -1,11 +1,13 @@
 'use strict';
 
-import utils from '../utils';
 import {PropTypes} from 'react';
 import SubscriberImpl from '../implements/SubscriberImpl';
 import ReflectionImpl from '../implements/ReflectionImpl';
 
 /**
+ * Intent to convert event data received from the Component, call the Action method of the Domain.
+ * Only Intent is familiar with both data from Component and the Domain interface.
+ *
  * @class Intent
  */
 export default class Intent {
@@ -21,6 +23,8 @@ export default class Intent {
   _subscriptions = [];
 
   /**
+   * Delegate to `SubscriberImpl.subscribe()`
+   *
    * @param {Observable} observable$
    * @param {function} observer
    */
@@ -29,7 +33,7 @@ export default class Intent {
   }
 
   /**
-   *
+   * Delegate to `SubscriberImpl.unsubscribeAll()`
    */
   unsubscribeAll() {
     SubscriberImpl.unsubscribeAll.apply(this, arguments);
@@ -43,7 +47,7 @@ export default class Intent {
   }
 
   /**
-   *
+   * When the intent itself is destroyed.
    */
   dispose() {
     this.unsubscribeAll();
@@ -51,11 +55,23 @@ export default class Intent {
   }
 
   /**
-   * must be implement
+   * Implement this method in a subclass, you handle the Observables.
+   *
+   * ```
+   * intentWillReceiveObservables(observables) {
+   *   this.subscribe(observables[ComponentEvents.newItem$], (product) => {
+   *     this.domain.addToCart(product);
+   *   });
+   *   this.subscribe(observables[ComponentEvents.checkout$], (products) => {
+   *     this.domain.cartCheckout(products);
+   *   })
+   * }
+   * ```
+   *
    * @param {Object<string, Observables>} observables
    */
   intentWillReceiveObservables() {
-    //
+    // implement...
   }
 
   /**

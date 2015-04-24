@@ -2,6 +2,9 @@
 
 import Bacon from 'baconjs';
 
+/**
+ * @class Bus
+ */
 export default {
   /**
    * @returns {Bacon.Bus}
@@ -18,6 +21,7 @@ export default {
       }
     }
 
+    // Emit a unified interface.
     if (handleBus.push && !handleBus.emit) {
       handleBus.emit = function() {
         handleBus.push.apply(handleBus, arguments);
@@ -28,12 +32,5 @@ export default {
     Bacon.Bus.call(handleBus);
 
     return handleBus;
-  },
-
-  /**
-   * @param {...Observable} observables
-   */
-  merge(...observables) {
-    return Bacon.mergeAll(...observables);
   }
 };

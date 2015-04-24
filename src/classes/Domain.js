@@ -1,9 +1,17 @@
 'use strict';
 
-import utils from '../utils';
 import ReflectionImpl from '../implements/ReflectionImpl';
 
 /**
+ * Domain contains one or more Store and manage application acts within the business domain.
+ * Has the role of Action and Dispatcher in flux, the dispatch message store.
+ *
+ * Do not control state in the domain, asynchronous processing also does not.
+ * State that all keep in the Store.
+ * Asynchronous processing should be implemented as the DomainUtils.
+ *
+ * The mount/unmuont component in conjunction with Intent for creation / deletion.
+ *
  * @class Domain
  */
 export default class Domain {
@@ -33,7 +41,18 @@ export default class Domain {
   intents = [];
 
   /**
+   * `prepare` method not implemented anything initially.
+   * Define the `observables` to expose within the prepare method.
    *
+   * ```
+   * prepare() {
+   *   this.observables = {
+   *     [DomainEvents.allProducts$]  : this.getStore('ProductStore').products$.toProperty(),
+   *     [DomainEvents.cartProducts$] : this.getStore('CartStore').products$.toProperty(),
+   *     [DomainEvents.cartTotal$]    : this.getStore('CartStore').total$.toProperty()
+   *   };
+   * }
+   * ```
    */
   prepare() {
     // implements required
@@ -58,6 +77,8 @@ export default class Domain {
   }
 
   /**
+   * Create the Intent to respond when an mount component.
+   *
    * @param {Component} component
    */
   onReceiveComponentDidMount(component) {
@@ -73,6 +94,8 @@ export default class Domain {
   }
 
   /**
+   * Destroy the Intent to respond when an Unmount component.
+   *
    * @param {Component} component
    */
   onReceiveComponentWillUnmount(component) {
@@ -81,6 +104,8 @@ export default class Domain {
   }
 
   /**
+   * Dispatch ActionType and payload data to stores.
+   *
    * TODO implements `waitFor`
    *
    * @param {string} type

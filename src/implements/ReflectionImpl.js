@@ -1,12 +1,14 @@
 'use strict';
 
+import utils from '../utils';
+
 /**
  * @class ReflectionImpl
  */
 export default class ReflectionImpl {
 
   /**
-   * Get Function.name
+   * Get `Function#name`
    * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/name
    *
    * @returns {string}
