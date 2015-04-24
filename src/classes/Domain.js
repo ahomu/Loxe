@@ -5,6 +5,7 @@ import ReflectionImpl from '../implements/ReflectionImpl';
 /**
  * Domain contains one or more Store and manage application acts within the business domain.
  * Has the role of Action and Dispatcher in flux, the dispatch message store.
+ * `this.observables` which bundled the output from more than one Store to provide for the Component.
  *
  * Do not control state in the domain, asynchronous processing also does not.
  * State that all keep in the Store.
