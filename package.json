@@ -36,6 +36,7 @@
     "browser-sync": "^2.3.1",
     "browserify": "^9.0.3",
     "browserify-istanbul": "^0.2.1",
+    "envify": "^3.4.0",
     "eslint": "^0.17.1",
     "espowerify": "^0.10.0",
     "exorcist": "^0.1.6",
@@ -49,6 +50,7 @@
     "mocha": "^2.2.1",
     "power-assert": "^0.10.2",
     "serve": "^1.4.0",
+    "sinon": "^1.14.1",
     "uglifyjs": "^2.4.10",
     "watchify": "^2.4.0"
   }
