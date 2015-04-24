@@ -3,9 +3,12 @@
 import React, {PropTypes} from 'react';
 import utils from '../utils';
 import Domain from './Domain';
+import SubscriberImpl from '../implements/SubscriberImpl';
+import ReflectionImpl from '../implements/ReflectionImpl';
 
 /**
  * @class Component
+ * @implements SubscriberImpl
  */
 export default class Component extends React.Component {
 
@@ -45,18 +48,14 @@ export default class Component extends React.Component {
    * @param {function} observer
    */
   subscribe(observable$, observer) {
-    if (observable$ == null) {
-      return;
-    }
-    this._subscriptions.push(observable$.onValue(observer));
+    SubscriberImpl.subscribe.apply(this, [observable$, observer]);
   }
 
   /**
    *
    */
   unsubscribeAll() {
-    this._subscriptions.forEach((subscription) => subscription());
-    this._subscriptions = [];
+    SubscriberImpl.unsubscribeAll.apply(this, arguments);
   }
 
   /**
@@ -123,17 +122,10 @@ export default class Component extends React.Component {
   }
 
   /**
-   * Get Function.name
-   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/name
-   *
    * @returns {string}
    */
   getClassName() {
-    if (!this.constructor.name) {
-      this.constructor.name = utils.extractNameFromFunction(this.constructor);
-    }
-
-    return this.constructor.name;
+    return ReflectionImpl.getClassName.apply(this);
   }
 
 }

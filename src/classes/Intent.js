@@ -2,6 +2,8 @@
 
 import utils from '../utils';
 import {PropTypes} from 'react';
+import SubscriberImpl from '../implements/SubscriberImpl';
+import ReflectionImpl from '../implements/ReflectionImpl';
 
 /**
  * @class Intent
@@ -23,18 +25,14 @@ export default class Intent {
    * @param {function} observer
    */
   subscribe(observable$, observer) {
-    if (observable$ == null) {
-      return;
-    }
-    this._subscriptions.push(observable$.onValue(observer));
+    SubscriberImpl.subscribe.apply(this, [observable$, observer]);
   }
 
   /**
    *
    */
   unsubscribeAll() {
-    this._subscriptions.forEach((subscription) => subscription());
-    this._subscriptions = [];
+    SubscriberImpl.unsubscribeAll.apply(this, arguments);
   }
 
   /**
@@ -61,16 +59,9 @@ export default class Intent {
   }
 
   /**
-   * Get Function.name
-   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/name
-   *
    * @returns {string}
    */
   getClassName() {
-    if (!this.constructor.name) {
-      this.constructor.name = utils.extractNameFromFunction(this.constructor);
-    }
-
-    return this.constructor.name;
+    return ReflectionImpl.getClassName.apply(this);
   }
 }
