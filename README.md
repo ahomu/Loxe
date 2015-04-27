@@ -1,6 +1,6 @@
 # Loxe
 
-Functional Reactive Programming philosophy incorporating Flux implementation. Including the FRP library does not have the concept of Cold/Hot (Bacon.js or Kefir.js)
+Functional Reactive Programming philosophy incorporating Flux implementation. Including Bacon.js as stream b/w objects.
 
 ## Contracts (Goal)
 
@@ -14,7 +14,7 @@ Don't know what is the object of all their actions will affect for other objects
 
 - [ ] usage!
 - [ ] flux-comparison example
-- [ ] selective frp libraries (bacon.js or kefir.js)
+- [ ] ~~selective frp libraries (bacon.js or kefir.js)~~
 
 ## Tests
 
