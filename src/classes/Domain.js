@@ -114,11 +114,7 @@ export default class Domain {
    */
   dispatch(type, payload) {
     this._stores.forEach((store) => {
-      let receiver = store.dispatchReceiver[type];
-
-      if (receiver) {
-        receiver.bind(store)(payload);
-      }
+      store.storeReceiveDispatch(type, payload);
     });
   }
 

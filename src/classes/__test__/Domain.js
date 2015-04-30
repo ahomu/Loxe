@@ -32,16 +32,16 @@ describe('Domain', ()=> {
 
     domain.addStore(store1);
     domain.addStore(store2);
-    store1.dispatchReceiver[DISPATCH_TEST1] = spy1;
-    store2.dispatchReceiver[DISPATCH_TEST2] = spy2;
+    store1.storeReceiveDispatch = spy1;
+    store2.storeReceiveDispatch = spy2;
 
     domain.dispatch(DISPATCH_TEST1, arg);
-    assert(spy1.withArgs(arg).calledOnce);
-    assert(!spy2.called);
+    assert(spy1.withArgs(DISPATCH_TEST1, arg).calledOnce);
+    assert(spy2.withArgs(DISPATCH_TEST1, arg).calledOnce);
 
     domain.dispatch(DISPATCH_TEST2, arg);
-    assert(spy1.withArgs(arg).calledOnce);
-    assert(spy2.withArgs(arg).calledOnce);
+    assert(spy1.withArgs(DISPATCH_TEST2, arg).calledOnce);
+    assert(spy2.withArgs(DISPATCH_TEST2, arg).calledOnce);
   });
 
   it('called onReceiveComponentDidMount() correctly', ()=> {

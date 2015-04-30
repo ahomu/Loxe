@@ -23,9 +23,11 @@ export default class Store {
    * };
    * ```
    *
-   * @type {Object<string, function>} dispatchReceiver
+   * @param {*} eventType
    */
-  dispatchReceiver = {};
+  storeReceiveDispatch() {
+    //
+  }
 
   /**
    * @returns {string}
