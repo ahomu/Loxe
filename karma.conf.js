@@ -16,7 +16,6 @@ module.exports = function(config) {
       transform : [
         require('babelify').configure({
           stage    : 0,
-          optional : ['runtime'],
           plugins  : ['babel-plugin-espower']
         })
       ],
