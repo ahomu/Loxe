@@ -45,7 +45,7 @@ describe('Component', ()=> {
     let spy = sinon.spy();
     let arg = {foo : 'bar'};
     let test = TestUtils.renderIntoDocument(<Test domain={domain} />);
-    test.observables.test$.onValue(spy);
+    test.observables.test$.subscribe(spy);
     assert(!spy.called);
     test.publish('test$', arg);
     assert(spy.withArgs(arg).calledOnce);

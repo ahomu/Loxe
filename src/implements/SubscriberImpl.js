@@ -22,14 +22,14 @@ export default class SubscriberImpl {
     if (observable$ == null) {
       return;
     }
-    this._subscriptions.push(observable$.onValue(observer));
+    this._subscriptions.push(observable$.subscribe(observer));
   }
 
   /**
    * To discard all subscriptions of the observable.
    */
   static unsubscribeAll() {
-    this._subscriptions.forEach((subscription) => subscription());
+    this._subscriptions.forEach((subscription) => subscription.dispose());
     this._subscriptions = [];
   }
 

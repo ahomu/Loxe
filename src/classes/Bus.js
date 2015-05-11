@@ -1,36 +1,34 @@
 'use strict';
 
-import Bacon from 'baconjs';
+import Rx from 'rx-lite';
 
 /**
  * @class Bus
  */
 export default {
   /**
-   * @returns {Bacon.Bus}
+   * @returns {Rx.Subject}
    */
   create() {
-    function handleBus() {
-      handleBus.push.apply(handleBus, arguments);
+    function BusSubject() {
+      BusSubject.onNext.apply(BusSubject, arguments);
     }
 
-    for (let key in Bacon.Bus.prototype) {
+    for (let key in Rx.Subject.prototype) {
       // Function#name is readonly...
       if (key !== 'name') {
-        handleBus[key] = Bacon.Bus.prototype[key];
+        BusSubject[key] = Rx.Subject.prototype[key];
       }
     }
 
     // Emit a unified interface.
-    if (handleBus.push && !handleBus.emit) {
-      handleBus.emit = function() {
-        handleBus.push.apply(handleBus, arguments);
-      };
-    }
+    BusSubject.emit = function() {
+      BusSubject.onNext.apply(BusSubject, arguments);
+    };
 
-    // construct `Bacon.Bus` as handelBus
-    Bacon.Bus.call(handleBus);
+    // construct `Rx.Subject` as handelBus
+    Rx.Subject.call(BusSubject);
 
-    return handleBus;
+    return BusSubject;
   }
 };

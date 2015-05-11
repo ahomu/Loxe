@@ -19,6 +19,7 @@ module.exports = function(config) {
           plugins  : ['babel-plugin-espower']
         })
       ],
+      debug : true,
       extensions : ['.js']
     },
 

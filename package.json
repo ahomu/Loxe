@@ -22,12 +22,17 @@
   },
   "browserify": {
     "transform": [
-      ["babelify", { "stage": 0}]
+      [
+        "babelify",
+        {
+          "stage": 0
+        }
+      ]
     ]
   },
   "browserify-shim": {
     "react": "global:React",
-    "baconjs": "global:Bacon"
+    "rx-lite": "global:Rx"
   },
   "files": [
     "src",
@@ -35,9 +40,9 @@
     "package.json"
   ],
   "dependencies": {
-    "baconjs": "^0.7.53",
     "object-assign": "^2.0.0",
-    "react": "^0.13.2"
+    "react": "^0.13.2",
+    "rx-lite": "^2.5.2"
   },
   "devDependencies": {
     "babel-core": "^5.1.11",
