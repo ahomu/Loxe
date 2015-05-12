@@ -1,6 +1,9 @@
 'use strict';
 
 import React, {PropTypes} from 'react';
+import Rx from 'rx-lite';
+import rxCombineTemplate from 'rx.observable.combinetemplate';
+import utils from '../utils';
 import Domain from './Domain';
 import SubscriberImpl from '../implements/SubscriberImpl';
 import ReflectionImpl from '../implements/ReflectionImpl';
@@ -107,7 +110,14 @@ export default class Component extends React.Component {
    * Start subscribe to Observable of the domain.
    */
   componentWillMount() {
-    this.componentWillReceiveObservables(this.getDomain().observables);
+    let observables = this.getDomain().observables;
+    let stateObject = this.componentWillReceiveObservables(observables);
+
+    this.subscribe(rxCombineTemplate(stateObject), (v) => {
+      console.debug('define', stateObject);
+      console.debug('current', v);
+      this.setState(v);
+    });
   }
 
   /**
@@ -139,6 +149,7 @@ export default class Component extends React.Component {
    *
    * @abstract
    * @param {Object<string, Observables>} observables
+   * @return {Object}
    */
   componentWillReceiveObservables() {
     // implement...

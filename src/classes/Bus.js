@@ -2,22 +2,25 @@
 
 import Rx from 'rx-lite';
 
+const BaseSubject = Rx.Subject;
+
 /**
  * @class Bus
  */
 export default {
   /**
+   * @param {*} initialValue
    * @returns {Rx.Subject}
    */
-  create() {
+  create(initialValue) {
     function BusSubject() {
       BusSubject.onNext.apply(BusSubject, arguments);
     }
 
-    for (let key in Rx.Subject.prototype) {
+    for (let key in BaseSubject.prototype) {
       // Function#name is readonly...
       if (key !== 'name') {
-        BusSubject[key] = Rx.Subject.prototype[key];
+        BusSubject[key] = BaseSubject.prototype[key];
       }
     }
 
@@ -27,7 +30,7 @@ export default {
     };
 
     // construct `Rx.Subject` as handelBus
-    Rx.Subject.call(BusSubject);
+    BaseSubject.call(BusSubject, initialValue);
 
     return BusSubject;
   }

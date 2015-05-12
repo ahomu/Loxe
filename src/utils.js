@@ -9,5 +9,9 @@ export default {
    */
   extractNameFromFunction(func) {
     return func.toString().match(/^function\s*([^\s(]+)/)[1];
+  },
+
+  extractValuesFromObject(object) {
+    return Object.keys(object).map((key) => object[key]);
   }
 };
