@@ -23,22 +23,10 @@ module.exports = function(config) {
       extensions : ['.js']
     },
 
-    browsers : ['Chrome'],
-
-    customLaunchers : {
-      chromeTravisCI : {
-        base  : 'Chrome',
-        flags : ['--no-sandbox']
-      }
-    },
+    browsers : ['Firefox'],
 
     autoWatch : true,
 
     reporters : ['dots']
   });
-
-  // Custom configuration for Travis-CI
-  if (process.env.TRAVIS) {
-    config.browsers = ['chromeTravisCI'];
-  }
 };
