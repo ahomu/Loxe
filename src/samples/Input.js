@@ -5,6 +5,7 @@ import Component from '../classes/Component';
 import Bus from '../classes/Bus';
 import assign from 'object-assign';
 import Rx from 'rx-lite';
+import AppIntent from './AppIntent';
 
 export default class Input extends Component {
 
@@ -21,16 +22,15 @@ export default class Input extends Component {
     isLengthOver  : false
   };
 
-  observables = {
-    newItem$   : Bus.create(),
-    inputKey$  : Bus.create(),
-    submitBtn$ : Bus.create()
+  ui = {
+    inputKey$  : Bus.event(),
+    submitBtn$ : Bus.event()
   };
 
   componentWillMount() {
     super.componentWillMount();
 
-    let currentLength = this.observables.inputKey$
+    let currentLength = this.ui.inputKey$
       .map((e) => e.target.value.length)
       .distinctUntilChanged();
 
@@ -41,12 +41,12 @@ export default class Input extends Component {
     currentLength.subscribe((v) => this.setState({currentLength : v}));
     isLengthOver.subscribe((v) => this.setState({isLengthOver : v}));
 
-    let sendTextStream = this.observables.submitBtn$
+    let sendTextStream = this.ui.submitBtn$
       .map(() => this.refs.input.getDOMNode().value)
       .filter(() => !this.state.isLengthOver && this.state.currentLength);
 
     sendTextStream.subscribe((v) => {
-      this.publish('newItem$', {
+      AppIntent.newItem$({
         text : v,
         time : Date.now()
       });
@@ -57,21 +57,21 @@ export default class Input extends Component {
       });
     });
 
-    //let shiftEnterStream = this.observables.inputKey$
+    //let shiftEnterStream = this.events.inputKey$
     //  .filter((e) => e.shiftKey && e.keyCode === 13);
     //
-    //this.observables.submitBtn$.merge(shiftEnterStream);
+    //this.events.submitBtn$.merge(shiftEnterStream);
   }
 
   render() {
     return (
       <div id="Input">
         <style>{this.styles}</style>
-        <textarea ref="input" onKeyUp={this.observables.inputKey$}></textarea>
+        <textarea ref="input" onKeyUp={this.ui.inputKey$}></textarea>
         <span className="count">
         <span style={{color : this.state.isLengthOver ? 'red' : 'black'}}>{this.state.currentLength}</span> / {this.props.maxLength}
         </span>
-        <button onClick={this.observables.submitBtn$}>Submit</button>
+        <button onClick={this.ui.submitBtn$}>Submit</button>
       </div>
     );
   }

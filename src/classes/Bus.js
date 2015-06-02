@@ -2,17 +2,42 @@
 
 import Rx from 'rx-lite';
 
-const BaseSubject = Rx.Subject;
-
 /**
  * @class Bus
  */
 export default {
   /**
+   * Bus for `Intent`
+   * @returns {Rx.Subject}
+   */
+  intent() {
+    return this.create(Rx.Subject);
+  },
+
+  /**
+   * Bus for `Component` ui events
+   * @returns {Rx.Subject}
+   */
+  event() {
+    return this.create(Rx.Subject);
+  },
+
+  /**
+   * Bus for `Store`
+   *
    * @param {*} initialValue
    * @returns {Rx.Subject}
    */
-  create(initialValue) {
+  store(initialValue) {
+    return this.create(Rx.BehaviorSubject, initialValue);
+  },
+
+  /**
+   * @param {Rx.Subject|Rx.BehaviorSubject} BaseSubject
+   * @param {*} [initialValue]
+   * @returns {Rx.Subject}
+   */
+  create(BaseSubject, initialValue) {
     function BusSubject() {
       BusSubject.onNext.apply(BusSubject, arguments);
     }

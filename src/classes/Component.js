@@ -93,45 +93,19 @@ export default class Component extends React.Component {
   }
 
   /**
-   * shorthand of observable.emit/push
-   *
-   * ```
-   * this.publish(ComponentEvents.checkout$, this.state.products);
-   * ```
-   *
-   * @param {String} observableName
-   * @param {*} value
-   */
-  publish(observableName, value) {
-    this.observables[observableName].emit(value);
-  }
-
-  /**
    * Start subscribe to Observable of the domain.
    */
   componentWillMount() {
     let observables = this.getDomain().observables;
     let stateObject = this.componentWillReceiveObservables(observables);
 
-    this.subscribe(rxCombineTemplate(stateObject), (v) => {
-      console.debug('define', stateObject);
-      console.debug('current', v);
-      this.setState(v);
-    });
-  }
-
-  /**
-   * To notify that the component mounted to the domain.
-   */
-  componentDidMount() {
-    this.getDomain().onReceiveComponentDidMount(this);
+    this.subscribe(rxCombineTemplate(stateObject), this.setState.bind(this));
   }
 
   /**
    * To notify that the component unmounted to the domain.
    */
   componentWillUnmount() {
-    this.getDomain().onReceiveComponentWillUnmount(this);
     this.unsubscribeAll();
   }
 
