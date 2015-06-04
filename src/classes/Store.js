@@ -1,6 +1,7 @@
 'use strict';
 
 import ReflectionImpl from '../implements/ReflectionImpl';
+import SubscriberImpl from '../implements/SubscriberImpl';
 
 /**
  * @class Store
@@ -8,17 +9,44 @@ import ReflectionImpl from '../implements/ReflectionImpl';
 export default class Store {
 
   /**
-   * @constructor
+   * Delegate to `SubscriberImpl.subscribe()`
+   *
+   * @param {Rx.Observable<ActionData>} observable$
+   * @param {string} filterKey
+   * @param {function} observer
    */
-  constructor() {
-    this.onSubscribeIntents();
+  subscribe(observable$, filterKey, observer) {
+    SubscriberImpl.subscribe.apply(this, [
+      observable$
+        .filter(({key}) => key === filterKey)
+        .map(({value}) => value),
+      observer
+    ]);
+  }
+
+  /**
+   *
+   * @param observable$
+   * @param definitions
+   */
+  subscribeAll(observable$, definitions) {
+    Object.keys(definitions).forEach((key) => {
+      this.subscribe(observable$, key, definitions[key]);
+    });
+  }
+
+  /**
+   * Delegate to `SubscriberImpl.unsubscribeAll()`
+   */
+  unsubscribeAll() {
+    SubscriberImpl.unsubscribeAll.apply(this);
   }
 
   /**
    *
    */
-  onSubscribeIntents() {
-    // implements required
+  onReceiveObservable() {
+    throw new Error('`onReceiveObservable` is abstract method. You should implements in sub-class');
   }
 
   /**
@@ -27,4 +55,5 @@ export default class Store {
   getClassName() {
     return ReflectionImpl.getClassName.apply(this);
   }
+
 }

@@ -19,6 +19,7 @@ export default class SubscriberImpl {
    * @param {function} observer
    */
   static subscribe(observable$, observer) {
+    this._subscriptions = this._subscriptions || [];
     if (observable$ == null) {
       return;
     }
@@ -29,6 +30,7 @@ export default class SubscriberImpl {
    * To discard all subscriptions of the observable.
    */
   static unsubscribeAll() {
+    this._subscriptions = this._subscriptions || [];
     this._subscriptions.forEach((subscription) => subscription.dispose());
     this._subscriptions = [];
   }

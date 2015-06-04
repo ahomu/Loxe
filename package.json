@@ -5,30 +5,20 @@
   "author": "ahomu",
   "main": "src/index.js",
   "scripts": {
-    "start": "npm run watch & npm run serve",
+    "start": "npm run watch & npm run serve --",
     "test": "karma start --singleRun",
     "tdd": "karma start",
     "clean": "rm -rf lib/*",
     "lint": "eslint ./src",
-    "sync": "browser-sync start --server --logLevel silent --files lib/**",
     "serve": "serve ./",
-    "watch": "watchify src/index.js -dv -t [babelify --stage 0] -t browserify-shim -s Loxe -o lib/loxe.js",
-    "build": "npm run concat && npm run minify",
-    "concat": "browserify src/index.js -t [babelify --stage 0] -t browserify-shim -s Loxe -o lib/loxe.js",
+    "watch": "watchify src/index.js -dv -t [babelify --modules commonStrict --optional runtime --stage 0] -t browserify-shim -s Loxe -o lib/loxe.js",
+    "concat": "browserify src/index.js -t [babelify --modules commonStrict --optional runtime --stage 0] -t browserify-shim -s Loxe -o lib/loxe.js",
+    "babel": "babel -s inline -m commonStrict --optional runtime --stage 0  -d ./lib ./src",
     "minify": "uglifyjs lib/loxe.js -m -c drop_console=true -o lib/loxe.min.js",
+    "build": "npm run babel",
     "patch": "npm version patch -m \"bump v%s !\"",
     "minor": "npm version minor -m \"bump v%s !!\"",
     "major": "npm version major -m \"bump v%s !!!\""
-  },
-  "browserify": {
-    "transform": [
-      [
-        "babelify",
-        {
-          "stage": 0
-        }
-      ]
-    ]
   },
   "browserify-shim": {
     "react": "global:React",
@@ -42,19 +32,21 @@
   "dependencies": {
     "clone": "^1.0.2",
     "object-assign": "^2.0.0",
-    "react": "^0.13.2",
-    "rx-lite": "^2.5.2",
-    "rx.observable.combinetemplate": "^0.1.1"
+    "rx.observable.combinetemplate": "^0.2.0"
+  },
+  "peerDependencies": {
+    "react": "^0.13.3",
+    "rx-lite": "^2.5.2"
   },
   "devDependencies": {
+    "babel": "^5.4.7",
     "babel-core": "^5.2.0",
     "babel-eslint": "^3.0.1",
     "babel-plugin-espower": "^0.4.1",
     "babel-runtime": "^5.0.2",
     "babelify": "^6.0.2",
-    "browserify-shim": "^3.8.5",
-    "browser-sync": "^2.3.1",
     "browserify": "^9.0.3",
+    "browserify-shim": "^3.8.5",
     "envify": "^3.4.0",
     "eslint": "^0.17.1",
     "espowerify": "^0.10.0",
@@ -62,9 +54,12 @@
     "karma-browserify": "^4.0.0",
     "karma-chrome-launcher": "^0.1.7",
     "karma-cli": "0.0.4",
+    "karma-firefox-launcher": "^0.1.6",
     "karma-mocha": "^0.1.10",
     "mocha": "^2.2.1",
     "power-assert": "^0.10.2",
+    "react": "^0.13.3",
+    "rx-lite": "^2.5.2",
     "serve": "^1.4.0",
     "sinon": "^1.14.1",
     "uglifyjs": "^2.4.10",

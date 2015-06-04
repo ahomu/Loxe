@@ -1,7 +1,5 @@
 'use strict';
 
-import utils from '../utils';
-
 /**
  * @class ReflectionImpl
  */
@@ -14,10 +12,8 @@ export default class ReflectionImpl {
    * @returns {string}
    */
   static getClassName() {
-    if (!this.constructor.name) {
-      this.constructor.name = utils.extractNameFromFunction(this.constructor);
-    }
-
-    return this.constructor.name;
+    // < IE9 is not support `Object.getPrototypeOf`
+    return Object.getPrototypeOf(this).constructor.name;
   }
+
 }

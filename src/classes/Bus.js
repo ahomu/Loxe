@@ -1,43 +1,36 @@
 'use strict';
 
-import Rx from 'rx-lite';
+import * as Rx from 'rx-lite';
 
 /**
  * @class Bus
  */
-export default {
+export default class Bus {
   /**
-   * Bus for `Intent`
+   * Bus for `Component` ui events & `Action` publish events
+   *
    * @returns {Rx.Subject}
    */
-  intent() {
-    return this.create(Rx.Subject);
-  },
+  static event() {
+    return Bus.create(Rx.Subject);
+  }
 
   /**
-   * Bus for `Component` ui events
-   * @returns {Rx.Subject}
-   */
-  event() {
-    return this.create(Rx.Subject);
-  },
-
-  /**
-   * Bus for `Store`
+   * Bus for `Store` data property
    *
    * @param {*} initialValue
    * @returns {Rx.Subject}
    */
-  store(initialValue) {
-    return this.create(Rx.BehaviorSubject, initialValue);
-  },
+  static property(initialValue) {
+    return Bus.create(Rx.BehaviorSubject, initialValue);
+  }
 
   /**
    * @param {Rx.Subject|Rx.BehaviorSubject} BaseSubject
    * @param {*} [initialValue]
    * @returns {Rx.Subject}
    */
-  create(BaseSubject, initialValue) {
+  static create(BaseSubject, initialValue) {
     function BusSubject() {
       BusSubject.onNext.apply(BusSubject, arguments);
     }
@@ -49,8 +42,8 @@ export default {
       }
     }
 
-    // Emit a unified interface.
-    BusSubject.emit = function() {
+    // `push` alias of `onNext`
+    BusSubject.push = function() {
       BusSubject.onNext.apply(BusSubject, arguments);
     };
 
@@ -59,4 +52,4 @@ export default {
 
     return BusSubject;
   }
-};
+}

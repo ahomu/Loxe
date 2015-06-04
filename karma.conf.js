@@ -15,7 +15,9 @@ module.exports = function(config) {
     browserify : {
       transform : [
         require('babelify').configure({
+          modules  : 'commonStrict',
           stage    : 0,
+          optional : ['runtime'],
           plugins  : ['babel-plugin-espower']
         })
       ],
