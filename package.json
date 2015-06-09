@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "",
   "author": "ahomu",
-  "main": "lib/loxe.js",
+  "main": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/ahomu/Talkie"
@@ -24,7 +24,8 @@
     "watch": "watchify src/index.js -dv -x kefir -t [babelify --modules commonStrict --stage 0] -s Loxe -o lib/loxe.js",
     "concat": "browserify src/index.js -p licensify -t [babelify --modules commonStrict --stage 0] -s Loxe -o lib/loxe.js",
     "minify": "uglifyjs lib/loxe.js -m -c --comments '/Modules in this bundle/' -o lib/loxe.min.js",
-    "build": "npm run concat && npm run minify && babel --modules commonStrict --stage 0 -d ./lib ./src",
+    "compile": "babel --modules commonStrict --stage 0 --ignore '**/__tests__/*' -d ./lib ./src",
+    "build": "npm run concat && npm run minify && npm run compile",
     "patch": "npm version patch -m \"bump v%s !\"",
     "minor": "npm version minor -m \"bump v%s !!\"",
     "major": "npm version major -m \"bump v%s !!!\""
