@@ -1,7 +1,6 @@
 'use strict';
 
-import * as React from 'react';
-import * as rxCombineTemplate from 'rx.observable.combinetemplate';
+import * as kefirCombineTemplate from 'kefir.combinetemplate';
 import * as assign from 'object-assign';
 import SubscriberImpl from '../implements/SubscriberImpl';
 import ReflectionImpl from '../implements/ReflectionImpl';
@@ -9,11 +8,15 @@ import decoratable    from '../utils/decoratable';
 
 /**
  * @param {Component} Component
+ * @param {React} React
  * @param {Function} receiveObservablesHandler
  * @returns {ActionsProvider}
  */
-function provideObservables(Component, receiveObservablesHandler) {
+function provideObservables(Component, React, receiveObservablesHandler) {
 
+  /**
+   * @class ObservablesProvider
+   */
   class ObservablesProvider extends React.Component {
 
     /**
@@ -54,13 +57,13 @@ function provideObservables(Component, receiveObservablesHandler) {
     componentWillMount() {
       if (!this.context.getObservables) {
         throw new Error('The context does not have `getObservables`.' +
-          'Make sure the ancestral component provides the domain context.');
+          'Make sure the ancestral component provides the domain context, use `@provideContext`.');
       }
 
       let observables = this.context.getObservables();
       let stateObject = receiveObservablesHandler(observables);
 
-      this.subscribe(rxCombineTemplate(stateObject), this.setState.bind(this));
+      this.subscribe(kefirCombineTemplate(stateObject), this.setState.bind(this));
     }
 
     /**

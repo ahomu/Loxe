@@ -1,17 +1,20 @@
 'use strict';
 
-import * as React from 'react';
 import * as assign from 'object-assign';
 import ReflectionImpl from '../implements/ReflectionImpl';
 import decoratable    from '../utils/decoratable';
 
 /**
  * @param {Component} Component
+ * @param {React} React
  * @param {Array<Action>} ActionClasses
  * @returns {ActionsProvider}
  */
-function provideActions(Component, ActionClasses = []) {
+function provideActions(Component, React, ActionClasses) {
 
+  /**
+   * @class ActionsProvider
+   */
   class ActionsProvider extends React.Component {
 
     /**
@@ -34,11 +37,16 @@ function provideActions(Component, ActionClasses = []) {
      * @returns {*}
      */
     render() {
-      let intents = {};
+      if (!this.context.getAction) {
+        throw new Error('The context does not have `getAction`.' +
+          'Make sure the ancestral component provides the domain context, use `@provideContext`.');
+      }
+
+      let actions = {};
       ActionClasses.reduce((acc, ActionClass) => {
         acc[ActionClass.name] = this.context.getAction(ActionClass);
-      }, intents);
-      return React.createElement(Component, assign(intents, this.props, this.state));
+      }, actions);
+      return React.createElement(Component, assign(actions, this.props));
     }
   }
 

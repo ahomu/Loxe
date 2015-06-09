@@ -1,37 +1,47 @@
 'use strict';
 
-import Bus from './Bus';
+import Subject from './Subject';
 import ReflectionImpl from '../implements/ReflectionImpl';
 
 /**
  * @typedef {Object} ActionData
- * @property {key} key
+ * @property {string} key
  * @property {*} value
  */
 
 /**
- * Intent to convert event data received from the Component, call the Action method of the Domain.
- * Only Intent is familiar with both data from Component and the Domain interface.
+ * The role of this class is the Flux `Action`.
+ * Implements the behavior methods subclasses that inherit from it.
+ * `publish` method is executed, and data flows from the `Observable` to `Store`.
  *
  * @class Action
  */
 export default class Action {
-  /**
-   *
-   * @type {Rx.Subject<ActionData>}
-   */
-  _observable$ = Bus.event();
 
   /**
-   *
+   * @type {Kefir.Stream<ActionData>}
+   * @private
+   */
+  eventStream$ = Subject.stream();
+
+  /**
    * @param {string} key
    * @param {*} value
    */
   publish(key, value) {
-    this._observable$.push({
+    this.eventStream$.push({
       key   : key,
       value : value
     });
+  }
+
+  /**
+   * alias of `publish()`
+   * @param {string} key
+   * @param {*} value
+   */
+  do(key, value) {
+    return this.publish(key, value);
   }
 
   /**
@@ -40,4 +50,5 @@ export default class Action {
   getClassName() {
     return ReflectionImpl.getClassName.apply(this);
   }
+
 }

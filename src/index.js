@@ -1,11 +1,20 @@
 'use strict';
 
+import Action    from './classes/Action';
 import Domain    from './classes/Domain';
 import Store     from './classes/Store';
-import Action    from './classes/Action';
-import Bus       from './classes/Bus';
+import Subject   from './classes/Subject';
 
 import provideContext     from './providers/provideContext';
 import provideObservables from './providers/provideObservables';
+import provideActions     from './providers/provideActions';
 
-export {Domain, Store, Action, Bus, provideContext, provideObservables}
+export {
+  Action,
+  Domain,
+  Store,
+  Subject,
+  provideActions,
+  provideContext,
+  provideObservables
+}

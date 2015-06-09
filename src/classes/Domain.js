@@ -1,18 +1,11 @@
 'use strict';
 
-import * as React from 'react';
 import ReflectionImpl from '../implements/ReflectionImpl';
 
 /**
- * Domain contains one or more Store and manage application acts within the business domain.
- * Has the role of Action and Dispatcher in flux, the dispatch message store.
- * `this.observables` which bundled the output from more than one Store to provide for the Component.
- *
  * Do not control application data in the domain, asynchronous processing also does not.
  * Application data that all keep in the Store.
  * Asynchronous processing should be implemented as external function.
- *
- * The mount/unmuont component in conjunction with Intent for creation / deletion.
  *
  * @class Domain
  */
@@ -29,7 +22,6 @@ export default class Domain {
   actions = new Map();
 
   /**
-   *
    * @param {Action} intent
    */
   registerAction(intent) {
@@ -42,7 +34,6 @@ export default class Domain {
   }
 
   /**
-   *
    * @param {Function} ActionClass
    * @returns {Action}
    */
@@ -51,7 +42,6 @@ export default class Domain {
   }
 
   /**
-   *
    * @param {Store} store
    */
   registerStore(store) {
@@ -64,7 +54,6 @@ export default class Domain {
   }
 
   /**
-   *
    * @param {Function} StoreClass
    * @returns {Store}
    */
@@ -73,30 +62,31 @@ export default class Domain {
   }
 
   /**
-   *
+   * All `Store` subscribe to all `Action`'s Observable
    */
   subscribeActionObservableFromStore() {
     for (let store of this.stores.values()) {
-      for (let intent of this.actions.values()) {
-        store.onReceiveObservable(intent._observable$);
+      for (let action of this.actions.values()) {
+        store.plugActionEventStream(action.eventStream$);
       }
     }
   }
 
   /**
-   * @param {Component} Component
-   * @param {Element} mountNode
+   * @returns {{domain: Domain}}
    */
-  mountComponent(Component, mountNode) {
+  getRootProps() {
     this.subscribeActionObservableFromStore();
-    React.render(React.createFactory(Component)({domain : this}), mountNode);
+    return {domain : this};
   }
 
   /**
    * `getObservables` method not implemented anything initially.
-   * Define the `observables` to expose within the prepare method.
+   * This method will call from the `provideObservables`.
+   * Sync the prop component the returned object as a template.
    * Good for most `observables` caching as a property value.
    *
+   * @example
    * ```
    * observables = null;
    *
@@ -114,7 +104,8 @@ export default class Domain {
    * @returns {Object<string, Rx.Observable>}
    */
   getObservables() {
-    throw new Error('`getObservables` is abstract method. You should implements in sub-class');
+    throw new Error(this.getClassName() + ':`getObservables` is abstract method.' +
+      'You should implements in sub-class');
   }
 
   /**
