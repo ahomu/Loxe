@@ -2,8 +2,6 @@
 
 import * as Kefir from 'kefir';
 
-window.Kefir = Kefir;
-
 /**
  * @class Subject
  */
@@ -30,47 +28,31 @@ export default class Subject {
   }
 
   /**
-   * @param {Kefir.Stream|Kefir.Property} BaseClass
-   * @param {*} [initialValue]
+   * @param {Kefir.Observable} BaseClass
+   * @param {*} initialValue
    * @returns {Kefir.Observable}
    */
   static create(BaseClass, initialValue) {
 
-    function Subject() {
-      Subject._emitValue.apply(Subject, arguments);
+    function _subject() {
+      _subject._emitValue.apply(_subject, arguments);
     }
 
     for (let key in BaseClass.prototype) {
-      Subject[key] = BaseClass.prototype[key];
+      _subject[key] = BaseClass.prototype[key];
     }
 
-    Subject.push  = Subject._emitValue;
-    Subject.error = Subject._emitError;
-    Subject.end   = Subject._emitEnd;
+    _subject.push  = _subject._emitValue;
+    _subject.error = _subject._emitError;
+    _subject.end   = _subject._emitEnd;
 
-    BaseClass.call(Subject, initialValue);
+    BaseClass.call(_subject);
 
-    return Subject;
+    if (initialValue !== undefined) {
+      _subject._active = true;
+      _subject._currentEvent = {type : 'value', value : initialValue, current : true};
+    }
+
+    return _subject;
   }
-
-  //static createFromRx(BaseClass, initialValue) {
-  //
-  //  function Subject() {
-  //    Subject.onNext.apply(Subject, arguments);
-  //  }
-  //
-  //  for (let key in BaseClass.prototype) {
-  //    Subject[key] = BaseClass.prototype[key];
-  //  }
-  //
-  //  // aliases
-  //  Subject.push  = Subject.onNext;
-  //  Subject.error = Subject.onError;
-  //  Subject.end   = Subject.onEnd;
-  //
-  //  // construct `Rx.Subject` as Subject
-  //  BaseClass.call(Subject, initialValue);
-  //
-  //  return Subject;
-  //}
 }
