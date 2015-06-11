@@ -1,6 +1,6 @@
 {
   "name": "loxe",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "",
   "author": "ahomu",
   "main": "lib/index.js",
@@ -38,12 +38,12 @@
   ],
   "dependencies": {
     "clone": "^1.0.2",
-    "object-assign": "^2.0.0",
+    "object-assign": "^3.0.0",
     "kefir.combinetemplate": "^0.1.2"
   },
   "peerDependencies": {
-    "kefir": "^2.5.0",
-    "react": "^0.13.3"
+    "kefir": "^2.5.x",
+    "react": "^0.13.x"
   },
   "devDependencies": {
     "babel": "^5.4.7",

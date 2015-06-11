@@ -35,8 +35,8 @@ npm test
 
 MIT
 
-[npm-image]: https://img.shields.io/npm/v/Loxe.svg
-[npm-url]: https://npmjs.org/package/Loxe
+[npm-image]: https://img.shields.io/npm/v/loxe.svg
+[npm-url]: https://npmjs.org/package/loxe
 [circle-image]: https://circleci.com/gh/ahomu/Loxe.svg?style=shield&circle-token=a3b5fc6b1535871b1a7371cc7cbac69abd8f3f93
 [circle-url]: https://circleci.com/gh/ahomu/Loxe
 [deps-image]: https://david-dm.org/ahomu/Loxe.svg
