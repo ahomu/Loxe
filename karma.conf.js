@@ -5,11 +5,11 @@ module.exports = function(config) {
     frameworks : ['browserify', 'mocha'],
 
     files : [
-      'src/**/__test__/*.js'
+      'src/**/__tests__/*.js'
     ],
 
     preprocessors : {
-      'src/**/__test__/*.js' : 'browserify'
+      'src/**/__tests__/*.js' : 'browserify'
     },
 
     browserify : {
@@ -17,7 +17,6 @@ module.exports = function(config) {
         require('babelify').configure({
           modules  : 'commonStrict',
           stage    : 0,
-          optional : ['runtime'],
           plugins  : ['babel-plugin-espower']
         })
       ],
@@ -25,7 +24,7 @@ module.exports = function(config) {
       extensions : ['.js']
     },
 
-    browsers : ['Firefox'],
+    browsers : ['Chrome', 'Firefox'],
 
     autoWatch : true,
 

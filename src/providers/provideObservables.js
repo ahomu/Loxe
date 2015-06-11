@@ -18,6 +18,11 @@ function provideObservables(Component, React, receiveObservablesHandler) {
    * @class ObservablesProvider
    */
   class ObservablesProvider extends React.Component {
+    /**
+     * @type {Component}
+     * @private
+     */
+    static _originalComponent = Component;
 
     /**
      * @type {Object<string, function>}

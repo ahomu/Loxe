@@ -18,6 +18,12 @@ function provideActions(Component, React, ActionClasses) {
   class ActionsProvider extends React.Component {
 
     /**
+     * @type {Component}
+     * @private
+     */
+    static _originalComponent = Component;
+
+    /**
      * @type {Object<string, function>}
      */
     static contextTypes = {

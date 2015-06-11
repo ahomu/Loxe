@@ -16,6 +16,12 @@ function provideContext(Component, React) {
    */
   class ContextProvider extends React.Component {
     /**
+     * @type {Component}
+     * @private
+     */
+    static _originalComponent = Component;
+
+    /**
      * @type {Object<string, function>}
      */
     static propTypes = {
@@ -39,6 +45,9 @@ function provideContext(Component, React) {
      *
      */
     componentWillMount() {
+      if (!this.props.domain) {
+        throw new Error('@provideContext higher-ordered component must have `props.domain`');
+      }
       this.childContexts = {
         getAction      : this.props.domain.getAction.bind(this.props.domain),
         getObservables : this.props.domain.getObservables.bind(this.props.domain)
