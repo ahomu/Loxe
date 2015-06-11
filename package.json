@@ -1,70 +1,73 @@
 {
   "name": "Loxe",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "description": "",
   "author": "ahomu",
-  "main": "src/index.js",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahomu/Talkie"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ahomu/Talkie/issues"
+  },
+  "homepage": "https://github.com/ahomu/Talkie",
   "scripts": {
-    "start": "npm run watch & npm run serve",
-    "test": "karma start --singleRun",
+    "start": "npm run watch & npm run serve --",
+    "test": "npm run lint && karma start --singleRun",
     "tdd": "karma start",
     "clean": "rm -rf lib/*",
     "lint": "eslint ./src",
-    "sync": "browser-sync start --server --logLevel silent --files lib/**",
     "serve": "serve ./",
-    "watch": "watchify src/index.js -dv -t [babelify --stage 0] -t browserify-shim -s Loxe -o lib/loxe.js",
-    "build": "npm run concat && npm run minify",
-    "concat": "browserify src/index.js -t [babelify --stage 0] -t browserify-shim -s Loxe -o lib/loxe.js",
-    "minify": "uglifyjs lib/loxe.js -m -c drop_console=true -o lib/loxe.min.js",
+    "libs": "browserify -r kefir -r react -o libs.js",
+    "watch": "watchify src/index.js -dv -x kefir -t [babelify --modules commonStrict --stage 0] -s Loxe -o lib/loxe.js",
+    "concat": "browserify src/index.js -p licensify -t [babelify --modules commonStrict --stage 0] -s Loxe -o lib/loxe.js",
+    "minify": "uglifyjs lib/loxe.js -m -c --comments '/Modules in this bundle/' -o lib/loxe.min.js",
+    "compile": "babel --modules commonStrict --stage 0 --ignore '**/__tests__/*' -d ./lib ./src",
+    "build": "npm run concat && npm run minify && npm run compile",
     "patch": "npm version patch -m \"bump v%s !\"",
     "minor": "npm version minor -m \"bump v%s !!\"",
     "major": "npm version major -m \"bump v%s !!!\""
   },
-  "browserify": {
-    "transform": [
-      [
-        "babelify",
-        {
-          "stage": 0
-        }
-      ]
-    ]
-  },
-  "browserify-shim": {
-    "react": "global:React",
-    "rx-lite": "global:Rx"
-  },
   "files": [
-    "src",
+    "lib",
     "README.md",
     "package.json"
   ],
   "dependencies": {
     "clone": "^1.0.2",
     "object-assign": "^2.0.0",
-    "react": "^0.13.2",
-    "rx-lite": "^2.5.2",
-    "rx.observable.combinetemplate": "^0.1.1"
+    "kefir.combinetemplate": "^0.1.2"
+  },
+  "peerDependencies": {
+    "kefir": "^2.5.0",
+    "react": "^0.13.3"
   },
   "devDependencies": {
-    "babel-core": "^5.1.11",
+    "babel": "^5.4.7",
+    "babel-core": "^5.2.0",
     "babel-eslint": "^3.0.1",
-    "babel-plugin-espower": "^0.3.0",
+    "babel-plugin-espower": "^0.4.1",
     "babel-runtime": "^5.0.2",
     "babelify": "^6.0.2",
-    "browserify-shim": "^3.8.5",
-    "browser-sync": "^2.3.1",
     "browserify": "^9.0.3",
+    "browserify-shim": "^3.8.5",
     "envify": "^3.4.0",
-    "eslint": "^0.17.1",
+    "eslint": "^0.22.1",
+    "eslint-plugin-react": "^2.5.0",
     "espowerify": "^0.10.0",
     "karma": "^0.12.31",
     "karma-browserify": "^4.0.0",
     "karma-chrome-launcher": "^0.1.7",
     "karma-cli": "0.0.4",
+    "karma-firefox-launcher": "^0.1.6",
     "karma-mocha": "^0.1.10",
+    "kefir": "^2.5.0",
+    "licensify": "ahomu/licensify#add-version-info",
     "mocha": "^2.2.1",
     "power-assert": "^0.10.2",
+    "react": "^0.13.3",
     "serve": "^1.4.0",
     "sinon": "^1.14.1",
     "uglifyjs": "^2.4.10",

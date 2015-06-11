@@ -1,7 +1,7 @@
 'use strict';
 
-import assert from 'power-assert';
-import React from 'react/dist/react-with-addons';
+import * as assert from 'power-assert';
+
 import ReflectionImpl from '../ReflectionImpl';
 
 describe('ReflectionImpl', ()=> {

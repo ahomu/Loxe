@@ -1,121 +1,145 @@
 'use strict';
 
 import ReflectionImpl from '../implements/ReflectionImpl';
+import Action from './Action';
+import Store from './Store';
 
 /**
- * Domain contains one or more Store and manage application acts within the business domain.
- * Has the role of Action and Dispatcher in flux, the dispatch message store.
- * `this.observables` which bundled the output from more than one Store to provide for the Component.
- *
- * Do not control state in the domain, asynchronous processing also does not.
- * State that all keep in the Store.
- * Asynchronous processing should be implemented as the DomainUtils.
- *
- * The mount/unmuont component in conjunction with Intent for creation / deletion.
+ * Do not control application data in the domain, asynchronous processing also does not.
+ * Application data that all keep in the Store.
+ * Asynchronous processing should be implemented as external function.
  *
  * @class Domain
  */
 export default class Domain {
 
   /**
-   * @private
-   * @type {Array<Store>}
+   * @type {Map<Function, Store>}
    */
-  _stores = [];
+  stores = new Map();
 
   /**
-   * @private
-   * @type {WeakMap<Intent>}
+   * @type {Map<Function, Action>}
    */
-  _intents = new WeakMap();
+  actions = new Map();
 
   /**
-   * export observable interface
+   * @constructor
+   */
+  constructor() {
+    this.initialize();
+  }
+
+  /**
    *
-   * @type {Object<string, Observable>}
    */
-  observables = {};
+  initialize() {
+    // implements you want
+  }
 
   /**
-   * @type {Array<Intent>}
+   * @param {Action} action
    */
-  intents = [];
+  registerAction(action) {
+    if (!(action instanceof Action)) {
+      throw new Error(`Given instance of ${action.getClassName()} is not Action`);
+    }
+
+    let ActionClass = Object.getPrototypeOf(action).constructor;
+    if (this.actions.has(ActionClass)) {
+      throw new Error(`${action.getClassName()} already exists in this domain.`);
+    } else {
+      this.actions.set(ActionClass, action);
+    }
+  }
 
   /**
-   * `prepare` method not implemented anything initially.
-   * Define the `observables` to expose within the prepare method.
-   *
-   * ```
-   * prepare() {
-   *   this.observables = {
-   *     [DomainEvents.allProducts$]  : this.getStore('ProductStore').products$.toProperty(),
-   *     [DomainEvents.cartProducts$] : this.getStore('CartStore').products$.toProperty(),
-   *     [DomainEvents.cartTotal$]    : this.getStore('CartStore').total$.toProperty()
-   *   };
-   * }
-   * ```
+   * @param {Function} ActionClass
+   * @returns {Action}
    */
-  prepare() {
-    // implements required
+  getAction(ActionClass) {
+    if (!this.actions.has(ActionClass)) {
+      throw new Error(`${ActionClass.constructor.name} is not registered as Action.`);
+    }
+
+    return this.actions.get(ActionClass);
   }
 
   /**
    * @param {Store} store
    */
-  addStore(store) {
-    if (this._stores.indexOf(store) !== -1) {
-      console.warn('Given store already registered.', store);
-      return this;
+  registerStore(store) {
+    if (!(store instanceof Store)) {
+      throw new Error(`Given instance of ${store.getClassName()} is not Store`);
     }
-    this._stores.push(store);
+
+    let StoreClass = Object.getPrototypeOf(store).constructor;
+    if (this.stores.has(StoreClass)) {
+      throw new Error(`${store.getClassName()} already exists in this domain.`);
+    } else {
+      this.stores.set(StoreClass, store);
+    }
   }
 
   /**
-   * @param {string} storeName
+   * @param {Function} StoreClass
+   * @returns {Store}
    */
-  getStore(storeName) {
-    return this._stores.filter((store) => store.getClassName() === storeName)[0];
+  getStore(StoreClass) {
+    if (!this.stores.has(StoreClass)) {
+      throw new Error(`${StoreClass.constructor.name} is not registered as Store.`);
+    }
+
+    return this.stores.get(StoreClass);
   }
 
   /**
-   * Create the Intent to respond when an mount component.
-   *
-   * @param {Component} component
+   * All `Store` subscribe to all `Action`'s Observable
    */
-  onReceiveComponentDidMount(component) {
-    let intents = this.intents.map((Intent) => {
-      let intent = new Intent();
-
-      intent.setDomain(this);
-      intent.intentWillReceiveObservables(component.observables);
-      return intent;
-    });
-
-    this._intents.set(component, intents);
+  subscribeActionObservableFromStore() {
+    for (let store of this.stores.values()) {
+      for (let action of this.actions.values()) {
+        store.plugAction(action);
+      }
+    }
   }
 
   /**
-   * Destroy the Intent to respond when an Unmount component.
-   *
-   * @param {Component} component
+   * @param {Component} Component
+   * @param {Element} mountNode
+   * @returns {ReactComponent}
    */
-  onReceiveComponentWillUnmount(component) {
-    let intents = this._intents.get(component);
-    intents.forEach((intent) => intent.dispose());
+  mountRootComponent(React, Component, mountNode) {
+    this.subscribeActionObservableFromStore();
+    return React.render(React.createElement(Component, {domain : this}), mountNode);
   }
 
   /**
-   * Dispatch ActionType and payload data to stores.
+   * `getObservables` method not implemented anything initially.
+   * This method will call from the `provideObservables`.
+   * Sync the prop component the returned object as a template.
+   * Good for most `observables` caching as a property value.
    *
-   * TODO implements `waitFor`
+   * @example
+   * ```
+   * observables = null;
    *
-   * @param {string} type
-   * @param {Object} payload
+   * getObservables() {
+   *   if (!this.observables) {
+   *   this.observables = {
+   *       update$ : this.getStore(AppStore).items$
+   *     };
+   *   }
+   *
+   *   return this.observables;
+   * }
+   * ```
+   *
+   * @returns {Object<string, Rx.Observable>}
    */
-  dispatch(type, payload) {
-    this._stores.forEach((store) => {
-      store.storeReceiveDispatch(type, payload);
-    });
+  getObservables() {
+    throw new Error(this.getClassName() + ':`getObservables` is abstract method.' +
+      'You should implements in sub-class');
   }
 
   /**

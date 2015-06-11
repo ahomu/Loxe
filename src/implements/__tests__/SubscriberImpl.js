@@ -1,10 +1,10 @@
 'use strict';
 
-import assert from 'power-assert';
-import React from 'react/dist/react-with-addons';
+import * as assert from 'power-assert';
+import * as sinon  from 'sinon';
+
 import SubscriberImpl from '../SubscriberImpl';
-import Bus from '../../classes/Bus';
-import sinon from 'sinon';
+import Subject from '../../classes/Subject';
 
 describe('SubscriberImpl', ()=> {
 
@@ -20,47 +20,47 @@ describe('SubscriberImpl', ()=> {
     }
   }
 
-  it('can subscribe Observable/Bus/EventStream/Property', ()=> {
+  it('can subscribe Observable/Subject/EventStream/Property', ()=> {
 
     let test = new Test();
-    let bus1 = Bus.create();
-    let bus2 = Bus.create();
+    let bus1 = Subject.stream();
+    let bus2 = Subject.stream();
     let spy = sinon.spy();
 
     test.subscribe(bus1, spy);
 
     test.subscribe(bus2, spy);
 
-    bus1.emit(true);
-    bus2.emit(true);
+    bus1.push(true);
+    bus2.push(true);
     assert(spy.calledTwice);
 
-    bus1.emit(true);
+    bus1.push(true);
     assert(spy.calledThrice);
   });
 
-  it('can unsubscribeAll Observable/Bus/EventStream/Property', ()=> {
+  it('can unsubscribeAll Observable/Subject/EventStream/Property', ()=> {
 
     let test = new Test();
-    let bus1 = Bus.create();
-    let bus2 = Bus.create();
-    let bus3 = Bus.create();
+    let bus1 = Subject.stream();
+    let bus2 = Subject.stream();
+    let bus3 = Subject.stream();
     let spy = sinon.spy();
 
     test.subscribe(bus1, spy);
     test.subscribe(bus2, spy);
     test.subscribe(bus3, spy);
 
-    bus1.emit(true);
-    bus2.emit(true);
-    bus3.emit(true);
+    bus1.push(true);
+    bus2.push(true);
+    bus3.push(true);
     assert(spy.calledThrice);
 
     test.unsubscribeAll();
 
-    bus1.emit(true);
-    bus2.emit(true);
-    bus3.emit(true);
+    bus1.push(true);
+    bus2.push(true);
+    bus3.push(true);
     assert(spy.calledThrice);
   });
 

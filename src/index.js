@@ -1,12 +1,20 @@
 'use strict';
 
-import React     from 'react';
-import Rx        from 'rx-lite';
-
-import Component from './classes/Component';
+import Action    from './classes/Action';
 import Domain    from './classes/Domain';
 import Store     from './classes/Store';
-import Intent    from './classes/Intent';
-import Bus       from './classes/Bus';
+import Subject   from './classes/Subject';
 
-export {Component, Domain, Store, Intent, Bus, React, Rx}
+import provideContext     from './providers/provideContext';
+import provideObservables from './providers/provideObservables';
+import provideActions     from './providers/provideActions';
+
+export {
+  Action,
+  Domain,
+  Store,
+  Subject,
+  provideActions,
+  provideContext,
+  provideObservables
+};
