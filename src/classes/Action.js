@@ -19,29 +19,43 @@ import ReflectionImpl from '../implements/ReflectionImpl';
 export default class Action {
 
   /**
+   * @constructor
+   */
+  constructor() {
+    this.initialize();
+  }
+
+  /**
+   *
+   */
+  initialize() {
+    // implements you want
+  }
+
+  /**
    * @type {Kefir.Stream<ActionData>}
    * @private
    */
   eventStream$ = Subject.stream();
 
   /**
-   * @param {string} key
-   * @param {*} value
+   * @param {string} eventName
+   * @param {*} payload
    */
-  publish(key, value) {
+  publish(eventName, payload) {
     this.eventStream$.push({
-      key   : key,
-      value : value
+      event   : eventName,
+      payload : payload
     });
   }
 
   /**
    * alias of `publish()`
-   * @param {string} key
-   * @param {*} value
+   * @param {string} eventName
+   * @param {*} payload
    */
-  do(key, value) {
-    return this.publish(key, value);
+  do(eventName, payload) {
+    return this.publish(eventName, payload);
   }
 
   /**

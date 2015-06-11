@@ -26,7 +26,7 @@ export default class Subject {
    * @returns {Kefir.Property}
    */
   static property(initialValue) {
-    return Subject.create(Kefir.Property);
+    return Subject.create(Kefir.Property, initialValue);
   }
 
   /**

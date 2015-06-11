@@ -16,8 +16,7 @@ import SubscriberImpl from '../implements/SubscriberImpl';
  * export default class AppStore extends Store {
  *   _items = [];
  *   items$ = Subject.property([]);
- *   constructor() {
- *     super();
+ *   initialize() {
  *     this.subscribe('ADD_ITEM', (item) => {
  *       this._items.unshift(item);
  *       this.items$.push(this._items);
@@ -38,22 +37,44 @@ export default class Store {
   plugStream$ = Subject.stream();
 
   /**
-   *
-   * @param {Rx.Observable<ActionData>} eventStream$
+   * @constructor
    */
-  plugActionEventStream(eventStream$) {
-    this.subscribe(eventStream$, this.plugStream$.push.bind(this.plugStream$));
+  constructor() {
+    this.initialize();
   }
 
   /**
    *
-   * @param {string} filterKey
+   */
+  initialize() {
+    // implements you want
+  }
+
+  /**
+   *
+   * @param {Action} action
+   */
+  plugAction(action) {
+    this.subscribe(action.eventStream$, this.plugStream$.push.bind(this.plugStream$));
+  }
+
+  /**
+   *
+   * @param {string} eventName
    * @returns {Rx.Observable<*>}
    */
-  getEvent(filterKey) {
+  getEvent(eventName) {
     return this.plugStream$
-      .filter(({key}) => key === filterKey)
-      .map(({value}) => value);
+      .filter(({event}) => event === eventName)
+      .map(({payload}) => payload);
+  }
+
+  /**
+   * @param {string} eventName
+   * @param {Function} observer
+   */
+  subscribeEvent(eventName, observer) {
+    this.subscribe(this.getEvent(eventName), observer);
   }
 
   /**

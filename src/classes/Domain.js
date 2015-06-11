@@ -1,6 +1,8 @@
 'use strict';
 
 import ReflectionImpl from '../implements/ReflectionImpl';
+import Action from './Action';
+import Store from './Store';
 
 /**
  * Do not control application data in the domain, asynchronous processing also does not.
@@ -22,14 +24,32 @@ export default class Domain {
   actions = new Map();
 
   /**
-   * @param {Action} intent
+   * @constructor
    */
-  registerAction(intent) {
-    let ActionClass = Object.getPrototypeOf(intent).constructor;
+  constructor() {
+    this.initialize();
+  }
+
+  /**
+   *
+   */
+  initialize() {
+    // implements you want
+  }
+
+  /**
+   * @param {Action} action
+   */
+  registerAction(action) {
+    if (!(action instanceof Action)) {
+      throw new Error(`Given instance of ${action.getClassName()} is not Action`);
+    }
+
+    let ActionClass = Object.getPrototypeOf(action).constructor;
     if (this.actions.has(ActionClass)) {
-      throw new Error(`${intent.getClassName()} already exists in this domain.`);
+      throw new Error(`${action.getClassName()} already exists in this domain.`);
     } else {
-      this.actions.set(ActionClass, intent);
+      this.actions.set(ActionClass, action);
     }
   }
 
@@ -38,6 +58,10 @@ export default class Domain {
    * @returns {Action}
    */
   getAction(ActionClass) {
+    if (!this.actions.has(ActionClass)) {
+      throw new Error(`${ActionClass.constructor.name} is not registered as Action.`);
+    }
+
     return this.actions.get(ActionClass);
   }
 
@@ -45,6 +69,10 @@ export default class Domain {
    * @param {Store} store
    */
   registerStore(store) {
+    if (!(store instanceof Store)) {
+      throw new Error(`Given instance of ${store.getClassName()} is not Store`);
+    }
+
     let StoreClass = Object.getPrototypeOf(store).constructor;
     if (this.stores.has(StoreClass)) {
       throw new Error(`${store.getClassName()} already exists in this domain.`);
@@ -58,6 +86,10 @@ export default class Domain {
    * @returns {Store}
    */
   getStore(StoreClass) {
+    if (!this.stores.has(StoreClass)) {
+      throw new Error(`${StoreClass.constructor.name} is not registered as Store.`);
+    }
+
     return this.stores.get(StoreClass);
   }
 
@@ -67,17 +99,19 @@ export default class Domain {
   subscribeActionObservableFromStore() {
     for (let store of this.stores.values()) {
       for (let action of this.actions.values()) {
-        store.plugActionEventStream(action.eventStream$);
+        store.plugAction(action);
       }
     }
   }
 
   /**
-   * @returns {{domain: Domain}}
+   * @param {Component} Component
+   * @param {Element} mountNode
+   * @returns {ReactComponent}
    */
-  getRootProps() {
+  mountRootComponent(React, Component, mountNode) {
     this.subscribeActionObservableFromStore();
-    return {domain : this};
+    return React.render(React.createElement(Component, {domain : this}), mountNode);
   }
 
   /**
