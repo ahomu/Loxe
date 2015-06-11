@@ -1,6 +1,6 @@
 {
   "name": "Loxe",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "",
   "author": "ahomu",
   "main": "lib/index.js",
@@ -15,7 +15,7 @@
   "homepage": "https://github.com/ahomu/Talkie",
   "scripts": {
     "start": "npm run watch & npm run serve --",
-    "test": "karma start --singleRun",
+    "test": "npm run lint && karma start --singleRun",
     "tdd": "karma start",
     "clean": "rm -rf lib/*",
     "lint": "eslint ./src",
@@ -54,7 +54,8 @@
     "browserify": "^9.0.3",
     "browserify-shim": "^3.8.5",
     "envify": "^3.4.0",
-    "eslint": "^0.17.1",
+    "eslint": "^0.22.1",
+    "eslint-plugin-react": "^2.5.0",
     "espowerify": "^0.10.0",
     "karma": "^0.12.31",
     "karma-browserify": "^4.0.0",

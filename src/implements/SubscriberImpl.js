@@ -30,7 +30,7 @@ export default class SubscriberImpl {
       subscription = observable$.subscribe(observer);
     } else {
       // Bacon, Kefir
-      observable$.onValue(observer)
+      observable$.onValue(observer);
       subscription = [observable$, observer];
     }
 
@@ -55,5 +55,4 @@ export default class SubscriberImpl {
     });
     this._subscriptions = [];
   }
-
 }

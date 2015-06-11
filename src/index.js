@@ -17,4 +17,4 @@ export {
   provideActions,
   provideContext,
   provideObservables
-}
+};
