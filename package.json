@@ -1,18 +1,18 @@
 {
-  "name": "Loxe",
+  "name": "loxe",
   "version": "0.2.0",
   "description": "",
   "author": "ahomu",
   "main": "lib/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ahomu/Talkie"
+    "url": "https://github.com/ahomu/Loxe"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ahomu/Talkie/issues"
+    "url": "https://github.com/ahomu/Loxe/issues"
   },
-  "homepage": "https://github.com/ahomu/Talkie",
+  "homepage": "https://github.com/ahomu/Loxe",
   "scripts": {
     "start": "npm run watch & npm run serve --",
     "test": "npm run lint && karma start --singleRun",
@@ -20,6 +20,7 @@
     "clean": "rm -rf lib/*",
     "lint": "eslint ./src",
     "serve": "serve ./",
+    "release": "npm run test && npm run build && npm publish",
     "libs": "browserify -r kefir -r react -o libs.js",
     "watch": "watchify src/index.js -dv -x kefir -t [babelify --modules commonStrict --stage 0] -s Loxe -o lib/loxe.js",
     "concat": "browserify src/index.js -p licensify -t [babelify --modules commonStrict --stage 0] -s Loxe -o lib/loxe.js",
