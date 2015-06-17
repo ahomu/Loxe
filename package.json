@@ -38,12 +38,14 @@
   ],
   "dependencies": {
     "clone": "^1.0.2",
-    "object-assign": "^3.0.0",
-    "kefir.combinetemplate": "^0.1.2"
+    "object-assign": "^3.0.0"
   },
   "peerDependencies": {
     "kefir": "^2.5.x",
-    "react": "^0.13.x"
+    "kefir.combinetemplate": "^0.1.2",
+    "react": "^0.13.x",
+    "rx-lite": "^2.5.2",
+    "rx.observable.combinetemplate": "^0.2.4"
   },
   "devDependencies": {
     "babel": "^5.4.7",
@@ -64,11 +66,14 @@
     "karma-cli": "0.0.4",
     "karma-firefox-launcher": "^0.1.6",
     "karma-mocha": "^0.1.10",
-    "kefir": "^2.5.0",
+    "kefir": "^2.5.x",
+    "kefir.combinetemplate": "^0.1.2",
     "licensify": "ahomu/licensify#add-version-info",
     "mocha": "^2.2.1",
     "power-assert": "^0.10.2",
     "react": "^0.13.3",
+    "rx-lite": "^2.5.2",
+    "rx.observable.combinetemplate": "^0.2.3",
     "serve": "^1.4.0",
     "sinon": "^1.14.1",
     "uglifyjs": "^2.4.10",

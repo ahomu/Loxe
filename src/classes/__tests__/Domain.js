@@ -3,10 +3,14 @@
 import * as assert from 'power-assert';
 import * as sinon  from 'sinon';
 import * as React  from 'react/addons';
+import * as Kefir  from 'kefir';
 
 import Action  from '../Action';
 import Domain  from '../Domain';
 import Store   from '../Store';
+import Subject, { KefirSubjectBuilder } from '../Subject';
+
+Subject.setBuilder(new KefirSubjectBuilder(Kefir));
 
 let TestUtils = React.addons.TestUtils;
 

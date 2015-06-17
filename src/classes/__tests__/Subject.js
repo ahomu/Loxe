@@ -1,12 +1,16 @@
 'use strict';
 
 import * as assert from 'power-assert';
+import * as Kefir  from 'kefir';
+import * as Rx  from 'rx-lite';
 
-import Subject from '../Subject';
+import Subject, { KefirSubjectBuilder, RxSubjectBuilder } from '../Subject';
 
 describe('Subject', ()=> {
 
-  it('`.stream()` will create stream', (done) => {
+  it('Kefir: `.stream()` will create stream', (done) => {
+    Subject.setBuilder(new KefirSubjectBuilder(Kefir));
+
     let stream = Subject.stream();
     stream.push(100);
     stream.onValue(i => {
@@ -15,7 +19,7 @@ describe('Subject', ()=> {
     });
     stream.onError(i => {
       assert(i === 300);
-      stream.end(400);
+      stream.end();
     });
     stream.onEnd(() => {
       done();
@@ -23,7 +27,9 @@ describe('Subject', ()=> {
     stream.push(200);
   });
 
-  it('`.property()` will create stream that keep latest value', (done) => {
+  it('Kefir: `.property()` will create stream that keep latest value', (done) => {
+    Subject.setBuilder(new KefirSubjectBuilder(Kefir));
+
     let property = Subject.property(100);
     property.onValue(i => {
       assert(i === 100);
@@ -31,11 +37,63 @@ describe('Subject', ()=> {
     });
     property.onError(i => {
       assert(i === 300);
-      property.end(400);
+      property.end();
     });
     property.onEnd(() => {
       done();
     });
+  });
+
+  it('Rx: `.stream()` will create stream', (done) => {
+    Subject.setBuilder(new RxSubjectBuilder(Rx));
+
+    let stream = Subject.stream();
+    stream.push(100);
+    stream.subscribe(
+      (i) => {
+        assert(i === 200);
+        stream.error(new Error('300'));
+      },
+      (err) => {
+        assert(err.message === '300');
+
+        let stream2 = Subject.stream();
+        stream2.subscribeOnCompleted(() => {
+          done();
+        });
+        stream2.end();
+      },
+      () => {
+        // in Rx, throw Error when immediate stop and no longer call onCompleted
+      }
+    );
+    stream.push(200);
+  });
+
+  it('Rx: `.property()` will create stream that keep latest value', (done) => {
+    Subject.setBuilder(new RxSubjectBuilder(Rx));
+
+    let property = Subject.property();
+    property.push(100);
+
+    property.subscribe(
+      (i) => {
+        assert(i === 100);
+        property.error(new Error('300'));
+      },
+      (err) => {
+        assert(err.message === '300');
+
+        let property2 = Subject.property();
+        property2.subscribeOnCompleted(() => {
+          done();
+        });
+        property2.end();
+      },
+      () => {
+        // in Rx, throw Error when immediate stop and no longer call onCompleted
+      }
+    );
   });
 
 });

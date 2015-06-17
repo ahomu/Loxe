@@ -2,8 +2,12 @@
 
 import * as assert from 'power-assert';
 import * as sinon  from 'sinon';
+import * as Kefir  from 'kefir';
 
 import Action  from '../Action';
+import Subject, { KefirSubjectBuilder } from '../Subject';
+
+Subject.setBuilder(new KefirSubjectBuilder(Kefir));
 
 describe('Action', ()=> {
 

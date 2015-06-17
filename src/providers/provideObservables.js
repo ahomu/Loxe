@@ -1,7 +1,7 @@
 'use strict';
 
-import * as kefirCombineTemplate from 'kefir.combinetemplate';
 import * as assign from 'object-assign';
+import Subject        from '../classes/Subject';
 import SubscriberImpl from '../implements/SubscriberImpl';
 import ReflectionImpl from '../implements/ReflectionImpl';
 import decoratable    from '../utils/decoratable';
@@ -68,7 +68,8 @@ function provideObservables(Component, React, receiveObservablesHandler) {
       let observables = this.context.getObservables();
       let stateObject = receiveObservablesHandler(observables);
 
-      this.subscribe(kefirCombineTemplate(stateObject), this.setState.bind(this));
+      let combined = Subject.combineTemplate(stateObject);
+      this.subscribe(combined, this.setState.bind(this));
     }
 
     /**
