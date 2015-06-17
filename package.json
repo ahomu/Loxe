@@ -21,7 +21,7 @@
     "lint": "eslint ./src",
     "serve": "serve ./",
     "release": "npm run test && npm run build && npm publish",
-    "watch": "watchify src/index.js -dv -t [babelify --modules commonStrict --stage 0] -s Loxe -o ./loxe.js",
+    "watch": "watchify example/index.js -dv -t [babelify --modules commonStrict --stage 0] -s Loxe -o ./example.js",
     "concat": "browserify src/index.js -p licensify -t [babelify --modules commonStrict --stage 0] -t browserify-shim -s Loxe -o ./loxe.js",
     "minify": "uglifyjs ./loxe.js -m -c --comments '/Modules in this bundle/' -o ./loxe.min.js",
     "compile": "babel --modules commonStrict --stage 0 --ignore '**/__tests__/*' -d ./lib ./src",

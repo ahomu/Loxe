@@ -1,3 +1,5 @@
 lib/samples
 src/samples
 node_modules
+example
+example.js
