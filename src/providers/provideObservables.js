@@ -1,5 +1,6 @@
 'use strict';
 
+import * as React  from 'react';
 import * as assign from 'object-assign';
 import Subject        from '../classes/Subject';
 import SubscriberImpl from '../implements/SubscriberImpl';
@@ -8,11 +9,10 @@ import decoratable    from '../utils/decoratable';
 
 /**
  * @param {Component} Component
- * @param {React} React
  * @param {Function} receiveObservablesHandler
  * @returns {ActionsProvider}
  */
-function provideObservables(Component, React, receiveObservablesHandler) {
+function provideObservables(Component, receiveObservablesHandler) {
 
   /**
    * @class ObservablesProvider

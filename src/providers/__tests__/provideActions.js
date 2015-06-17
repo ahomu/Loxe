@@ -16,14 +16,14 @@ describe('@provideActions', ()=> {
   class TestDomain extends Domain {}
   class TestAction extends Action {}
 
-  @provideActions(React, [TestAction])
+  @provideActions([TestAction])
   class ChildComponent extends React.Component {
     render() {
       return <div />;
     }
   }
 
-  @provideContext(React)
+  @provideContext()
   class RootComponent extends React.Component {
     render() {
       return <ChildComponent />;

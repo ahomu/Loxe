@@ -1,16 +1,16 @@
 'use strict';
 
+import * as React  from 'react';
 import * as assign from 'object-assign';
 import ReflectionImpl from '../implements/ReflectionImpl';
 import decoratable    from '../utils/decoratable';
 
 /**
  * @param {Component} Component
- * @param {React} React
  * @param {Array<Action>} ActionClasses
  * @returns {ActionsProvider}
  */
-function provideActions(Component, React, ActionClasses) {
+function provideActions(Component, ActionClasses) {
 
   /**
    * @class ActionsProvider

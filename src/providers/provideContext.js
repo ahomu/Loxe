@@ -1,15 +1,15 @@
 'use strict';
 
+import * as React  from 'react';
 import Domain from '../classes/Domain';
 import ReflectionImpl from '../implements/ReflectionImpl';
 import decoratable    from '../utils/decoratable';
 
 /**
  * @param {Component} Component
- * @param {React} React
  * @returns {ContextProvider}
  */
-function provideContext(Component, React) {
+function provideContext(Component) {
 
   /**
    * @class ContextProvider

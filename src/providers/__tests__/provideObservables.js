@@ -28,7 +28,7 @@ describe('@provideObservables', ()=> {
     test$ = Subject.property(666);
   }
 
-  @provideObservables(React, observables => ({
+  @provideObservables(observables => ({
     export : observables.export$
   }))
   class ChildComponent extends React.Component {
@@ -37,7 +37,7 @@ describe('@provideObservables', ()=> {
     }
   }
 
-  @provideContext(React)
+  @provideContext()
   class RootComponent extends React.Component {
     render() {
       return <ChildComponent />;

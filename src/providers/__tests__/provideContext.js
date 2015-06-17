@@ -36,7 +36,7 @@ describe('@provideContext', ()=> {
     }
   }
 
-  @provideContext(React)
+  @provideContext()
   class RootComponent extends React.Component {
     render() {
       return <ChildComponent />;
