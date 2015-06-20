@@ -4,14 +4,15 @@
 
 Functional Reactive Programming philosophy incorporating Flux implementation.
 
--
-- Mapping to props from observables. provide by Decorater
+- Mapping to props from observables. provide by Decorators
 
 ## Installation
 
 Recommend for use browserify, or other CommonJS/ES6 modules resolver.
 
 ### Use browserify
+
+To install the `loxe` by NPM.
 
 ```shell
 npm i --save loxe
@@ -23,15 +24,9 @@ var Loxe = require('loxe');
 
 // ES6 modules (babel)
 import Loxe from 'loxe';
-
-// if you using babel with `--modules commonStrict` or TypeScript
-import * as Loxe from 'loxe';
 ```
 
 ```shell
-# normal
-browserify index.js
-
 # Loxe depends on React. If you want to separate `react` as other bundle.
 browserify index.js -x react -o bundle.js
 browserify -r react -o libs.js
@@ -41,15 +36,81 @@ browserify -r react -o libs.js
 
 `loxe.js` built with browserify-shim. To run the Loxe `window.React` is required.
 
-```
+```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
-<script src="vendor/loxe.js"></script>
+<script src="loxe.js"></script>
 ```
 
 ## Usage
 
+### Choose FRP library
 
-## API
+At first, sets the FRP (_Functional Reactive Programming_) library, used internally by the `Subject`.
+
+```javascript
+import Rx from 'rx-lite';
+import rxCombineTemplate from 'rx.observable.combinetemplate';
+import { Subject } from 'loxe';
+
+Subject.setBuilder(new Subject.RxSubjectBuilder(Rx));
+Subject.setCombineTemplate(rxCombineTemplate);
+```
+
+Supported [Reactive-Extensions/RxJS](https://github.com/Reactive-Extensions/RxJS) and [rpominov/kefir](https://github.com/rpominov/kefir).
+
+```javascript
+import Kefir from 'kefir';
+import kefirCombineTemplate from 'kefir.combinetemplate';
+import { Subject } from 'loxe';
+
+Subject.setBuilder(new Subject.KefirSubjectBuilder(Kefir));
+Subject.setCombineTemplate(kefirCombineTemplate);
+```
+
+**This is a transitional period for the future within fixed on either side.**
+
+### Setup Loxe
+
+```javascript
+import { Domain, Store, Action, Subject } from 'loxe';
+
+class AppDomain extends Domain {
+  getObservables() {
+    return {
+      items$ : this.getStore(AppStore).items$,
+      count$ : this.getStore(AppStore).items$.map(a => a.length)
+    };
+  }
+}
+
+class AppStore extends Store {
+  constructor() {
+    this._items = [];
+    this.items$ = Subject.property(this._items);
+  }
+
+  intialize() {
+    this.subscribeEvent('ADD_ITEMS', (items) => {
+      this._items = this._items.contat(items);
+      this.items$.push(this._items);
+    });
+    this.getEvent('ADD_ITEMS').map()
+  }
+}
+
+class AppAction extends Action {
+  addItems(items) {
+    this.publish('ADD_ITEMS', items);
+  }
+}
+
+const appDomain = new AppDomain();
+appDomain.registerAction(new AppAction());
+appDomain.registerStore(new AppStore());
+appDomain.mountRootComponent(Root, document.getElementById('app'));
+```
+
+## API References
 
 ### Core Classes
 
@@ -87,27 +148,36 @@ alias of `publish()`
 
 ##### `Sbuject.setBuilder()`
 
-##### `Subject..setCombineTemplate()`
+##### `Subject.setCombineTemplate()`
 
-##### `stream()`
+##### `Subject.stream()`
 
-##### `property()`
+##### `Subject.property()`
+
+##### `push()`
+
+##### `error()`
+
+##### `end()`
 
 ### Providers
 
 #### @provideAction
 
 ```javascript
+// hogehoge
 ```
 
 #### @provideContext
 
 ```javascript
+// hogehoge
 ```
 
 #### @provideObservables
 
 ```javascript
+// hogehoge
 ```
 
 ## Tests

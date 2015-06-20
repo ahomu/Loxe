@@ -1,6 +1,6 @@
 {
   "name": "loxe",
-  "version": "0.3.0",
+  "version": "0.3.2-alpha1",
   "description": "",
   "author": "ahomu",
   "main": "lib/index.js",
@@ -21,12 +21,13 @@
     "clean": "rm -rf lib/*",
     "lint": "eslint ./src",
     "serve": "serve ./",
+    "unstable": "npm run test && npm run build && npm publish . --tag unstable",
     "release": "npm run test && npm run build && npm publish",
     "watch": "watchify example/index.js -dv -t [babelify --modules commonStrict --stage 0] -s Loxe -o ./example.js",
     "concat": "browserify src/index.js -p licensify -t [babelify --modules commonStrict --stage 0] -t browserify-shim -s Loxe -o ./loxe.js",
     "minify": "uglifyjs ./loxe.js -m -c --comments '/Modules in this bundle/' -o ./loxe.min.js",
     "compile": "babel --modules commonStrict --stage 0 --ignore '**/__tests__/*' -d ./lib ./src",
-    "build": "npm run concat && npm run minify && npm run compile",
+    "build": "npm run concat && npm run minify",
     "patch": "npm version patch -m \"bump v%s !\"",
     "minor": "npm version minor -m \"bump v%s !!\"",
     "major": "npm version major -m \"bump v%s !!!\""
@@ -48,13 +49,13 @@
   },
   "peerDependencies": {
     "kefir": "^2.5.x",
-    "kefir.combinetemplate": "^0.1.2",
+    "kefir.combinetemplate": "^0.1.x",
     "react": "^0.13.x",
-    "rx-lite": "^2.5.2",
-    "rx.observable.combinetemplate": "^0.2.4"
+    "rx-lite": "^2.5.x",
+    "rx.observable.combinetemplate": "^0.2.x"
   },
   "devDependencies": {
-    "babel-core": "^5.2.0",
+    "babel": "^5.4.7",
     "babel-eslint": "^3.0.1",
     "babel-plugin-espower": "^0.4.1",
     "babel-runtime": "^5.0.2",

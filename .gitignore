@@ -1,5 +1,4 @@
-lib/samples
-src/samples
+lib
 node_modules
 example
 example.js
