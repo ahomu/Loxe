@@ -83,7 +83,7 @@ describe('Domain', ()=> {
   it('`.mountRootComponent()`', () => {
     let domain = new TestDomain();
     let container = document.createElement('div');
-    let component = domain.mountRootComponent(React, TestComponent, container);
+    let component = domain.mountRootComponent(TestComponent, container);
 
     assert(component.props.domain === domain);
     assert(TestUtils.findRenderedDOMComponentWithClass(component, 'hogehoge'));

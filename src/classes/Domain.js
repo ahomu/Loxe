@@ -1,5 +1,7 @@
 'use strict';
 
+import * as React  from 'react';
+
 import ReflectionImpl from '../implements/ReflectionImpl';
 import Action from './Action';
 import Store from './Store';
@@ -109,7 +111,7 @@ export default class Domain {
    * @param {Element} mountNode
    * @returns {ReactComponent}
    */
-  mountRootComponent(React, Component, mountNode) {
+  mountRootComponent(Component, mountNode) {
     this.subscribeActionObservableFromStore();
     return React.render(React.createElement(Component, {domain : this}), mountNode);
   }

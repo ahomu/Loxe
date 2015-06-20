@@ -50,7 +50,7 @@ describe('@provideContext', ()=> {
     let container = document.createElement('div');
 
     domain.registerAction(action);
-    let root = domain.mountRootComponent(React, RootComponent, container);
+    let root = domain.mountRootComponent(RootComponent, container);
     let child = TestUtils.findRenderedComponentWithType(root, ChildComponent);
 
     assert(React.PropTypes.func.isRequired(child.context.getAction));

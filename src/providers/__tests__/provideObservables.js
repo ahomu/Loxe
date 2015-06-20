@@ -53,7 +53,7 @@ describe('@provideObservables', ()=> {
     let container = document.createElement('div');
 
     domain.registerStore(store);
-    let root = domain.mountRootComponent(React, RootComponent, container);
+    let root = domain.mountRootComponent(RootComponent, container);
     let innerWrapped = TestUtils.findRenderedComponentWithType(root, ChildComponent._originalComponent);
 
     assert(innerWrapped.props.export === 666);
