@@ -99,11 +99,11 @@ export default class Domain {
    * All `Store` subscribe to all `Action`'s Observable
    */
   subscribeActionObservableFromStore() {
-    for (let store of this.stores.values()) {
-      for (let action of this.actions.values()) {
+    this.stores.forEach(store => {
+      this.actions.forEach(action => {
         store.plugAction(action);
-      }
-    }
+      });
+    });
   }
 
   /**
