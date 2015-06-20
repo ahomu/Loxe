@@ -15,6 +15,7 @@
   "homepage": "https://github.com/ahomu/Loxe",
   "scripts": {
     "start": "npm run watch & npm run serve --",
+    "postinstall": "npm run compile",
     "test": "npm run lint && karma start --singleRun",
     "tdd": "karma start",
     "clean": "rm -rf lib/*",
@@ -34,11 +35,14 @@
     "react": "global:React"
   },
   "files": [
-    "lib",
+    "src",
+    "loxe.js",
+    "loxe.min.js",
     "README.md",
     "package.json"
   ],
   "dependencies": {
+    "babel": "^5.4.7",
     "clone": "^1.0.2",
     "object-assign": "^3.0.0"
   },
@@ -50,7 +54,6 @@
     "rx.observable.combinetemplate": "^0.2.4"
   },
   "devDependencies": {
-    "babel": "^5.4.7",
     "babel-core": "^5.2.0",
     "babel-eslint": "^3.0.1",
     "babel-plugin-espower": "^0.4.1",
