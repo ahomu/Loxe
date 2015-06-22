@@ -1,7 +1,6 @@
 'use strict';
 
 import * as assert from 'power-assert';
-import * as sinon  from 'sinon';
 import * as Kefir  from 'kefir';
 
 import Action  from '../Action';
@@ -16,14 +15,6 @@ describe('Action', ()=> {
       this.publish('test', {key : 'value'});
     }
   }
-
-  it('call `.initialize()` when construct', () => {
-    let spy = sinon.spy(TestAction.prototype, 'initialize');
-
-    new TestAction() && assert(spy.calledOnce);
-
-    spy.restore();
-  });
 
   it('can `.publish()` data', (done) => {
     let testAction = new TestAction();

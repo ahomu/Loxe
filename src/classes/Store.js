@@ -37,20 +37,6 @@ export default class Store {
   plugStream$ = Subject.stream();
 
   /**
-   * @constructor
-   */
-  constructor() {
-    this.initialize();
-  }
-
-  /**
-   *
-   */
-  initialize() {
-    // implements you want
-  }
-
-  /**
    *
    * @param {Action} action
    */

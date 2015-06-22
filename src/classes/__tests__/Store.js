@@ -18,14 +18,6 @@ describe('Store', ()=> {
   class TestStore extends Store {
   }
 
-  it('call `.initialize()` when construct', () => {
-    let spy = sinon.spy(TestStore.prototype, 'initialize');
-
-    new TestStore() && assert(spy.calledOnce);
-
-    spy.restore();
-  });
-
   it('`.plugAction()` plug Action events to `.plugStream$`', (done) => {
     let store = new TestStore();
     let action = new TestAction();

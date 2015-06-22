@@ -19,20 +19,6 @@ import ReflectionImpl from '../implements/ReflectionImpl';
 export default class Action {
 
   /**
-   * @constructor
-   */
-  constructor() {
-    this.initialize();
-  }
-
-  /**
-   *
-   */
-  initialize() {
-    // implements you want
-  }
-
-  /**
    * @type {Kefir.Stream<ActionData>}
    * @private
    */

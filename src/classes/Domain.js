@@ -7,9 +7,9 @@ import Action from './Action';
 import Store from './Store';
 
 /**
- * Do not control application data in the domain, asynchronous processing also does not.
- * Application data that all keep in the Store.
- * Asynchronous processing should be implemented as external function.
+ * `Domain` that manages the `Store` and `Action`.
+ * Each feature of Flux provides to `Component`,
+ * using the Context feature of the React.
  *
  * @class Domain
  */
@@ -24,20 +24,6 @@ export default class Domain {
    * @type {Map<Function, Action>}
    */
   actions = new Map();
-
-  /**
-   * @constructor
-   */
-  constructor() {
-    this.initialize();
-  }
-
-  /**
-   *
-   */
-  initialize() {
-    // implements you want
-  }
 
   /**
    * @param {Action} action
