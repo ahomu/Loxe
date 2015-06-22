@@ -71,15 +71,28 @@ Subject.setCombineTemplate(kefirCombineTemplate);
 
 ### Setup Loxe
 
+`Domain` that manages the `Store` and `Action`. Each feature of Flux provides to `Component`, using the Context feature of the React.
+
+Loxe uses [javascript-decorators](https://github.com/wycats/javascript-decorators) for the component. TypeScript or Babel with '--stage 1 ' option, use recommended. (As a function `Root = provideContext (Root);` you might also use)
+
 ```javascript
 import { Domain, Store, Action, Subject } from 'loxe';
 
 class AppDomain extends Domain {
   getObservables() {
+    // Object returns that will provide to components, through `@provideObservables`.
     return {
       items$ : this.getStore(AppStore).items$,
       count$ : this.getStore(AppStore).items$.map(a => a.length)
     };
+  }
+}
+
+class AppAction extends Action {
+  addItem(item) {
+    // `.publish()` is like a dispatch of the Flux.
+    // By event name published here, you can subscribe from the Store. 
+    this.publish('ADD_ITEM', item);
   }
 }
 
@@ -90,17 +103,46 @@ class AppStore extends Store {
   }
 
   intialize() {
-    this.subscribeEvent('ADD_ITEMS', (items) => {
-      this._items = this._items.contat(items);
-      this.items$.push(this._items);
+    // `.plugStream$` is Observable, and `{event: string, payload: any}`
+    // will be issued from the `Action` will be aggregated.
+    // `.subscribeEvent(event, observer)` subscribe to Observable
+    // that from plugStream filtered by events.
+    this.subscribeEvent('ADD_ITEM', (item) => {
+      this._items.push(item);
+      this.items$.next(this._items);
     });
-    this.getEvent('ADD_ITEMS').map()
   }
 }
 
-class AppAction extends Action {
-  addItems(items) {
-    this.publish('ADD_ITEMS', items);
+// Becoming a root Component, `@provideContext` Decorator is required.
+// It connects components Tree Root and Flux.
+@provideContext()
+class Root extends React.Component {
+  render() {
+    return <Child />;
+  }
+}
+
+// @provideAction: Inject Action instance to the component props.
+// @provideObservables: Value of the Observable will be provided
+//                      from the domain mapped to the props.
+@provideAction([AppAction])
+@provideObservables(observables => ({
+  items : observables.items$
+}))
+class Child extends React.Component {
+  addItem() {
+    this.props.AppAction.addItems({data: Date.now()});
+  }
+  render() {
+    return (
+      <div>
+        <button onClick={this.addItem.bind(this)}>add item</button>
+        <ul>
+          {this.props.items.map(item => <li>{item.data}</li>)}
+        </ul>
+      </div>
+    );
   }
 }
 
