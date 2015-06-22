@@ -61,8 +61,11 @@ function provideObservables(Component, receiveObservablesHandler) {
      */
     componentWillMount() {
       if (!this.context.getObservables) {
-        throw new Error('The context does not have `getObservables`.' +
-          'Make sure the ancestral component provides the domain context, use `@provideContext`.');
+        throw new Error(
+          'The context does not have `getObservables`.' +
+          'Make sure the ancestral component provides ' +
+          'the domain context, use `@provideContext`.'
+        );
       }
 
       let observables = this.context.getObservables();

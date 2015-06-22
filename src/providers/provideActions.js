@@ -44,8 +44,10 @@ function provideActions(Component, ActionClasses) {
      */
     render() {
       if (!this.context.getAction) {
-        throw new Error('The context does not have `getAction`.' +
-          'Make sure the ancestral component provides the domain context, use `@provideContext`.');
+        throw new Error(
+          'The context does not have `getAction`.' +
+          'Make sure the ancestral component provides ' +
+          'the domain context, use `@provideContext`.');
       }
 
       let actions = {};

@@ -38,7 +38,8 @@ describe('@provideActions', ()=> {
     domain.registerAction(action);
     let root = domain.mountRootComponent(RootComponent, container);
     let child = TestUtils.findRenderedComponentWithType(root, ChildComponent);
-    let innerWrapped = TestUtils.findRenderedComponentWithType(root, ChildComponent._originalComponent);
+    let innerWrapped = TestUtils.findRenderedComponentWithType(
+      root, ChildComponent._originalComponent);
 
     assert(child.context.getAction(TestAction) === action);
     assert(innerWrapped.props.TestAction === action);

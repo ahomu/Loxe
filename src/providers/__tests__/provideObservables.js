@@ -54,7 +54,8 @@ describe('@provideObservables', ()=> {
 
     domain.registerStore(store);
     let root = domain.mountRootComponent(RootComponent, container);
-    let innerWrapped = TestUtils.findRenderedComponentWithType(root, ChildComponent._originalComponent);
+    let innerWrapped = TestUtils.findRenderedComponentWithType(
+      root, ChildComponent._originalComponent);
 
     assert(innerWrapped.props.export === 666);
     store.test$.next(13);
