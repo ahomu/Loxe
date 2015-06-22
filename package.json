@@ -1,7 +1,7 @@
 {
   "name": "loxe",
   "version": "0.3.2-alpha1",
-  "description": "",
+  "description": "Flux architecture incorporates FRP library implementation. Observable is awesome!",
   "author": "ahomu",
   "main": "lib/index.js",
   "repository": {
