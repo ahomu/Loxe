@@ -110,7 +110,7 @@ appDomain.registerStore(new AppStore());
 appDomain.mountRootComponent(Root, document.getElementById('app'));
 ```
 
-## API References
+## API Reference
 
 ### Core Classes
 
@@ -154,11 +154,11 @@ alias of `publish()`
 
 ##### `Subject.property()`
 
-##### `push()`
+##### `next()`
 
-##### `error()`
+##### `throw()`
 
-##### `end()`
+##### `return()`
 
 ### Providers
 

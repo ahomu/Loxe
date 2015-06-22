@@ -19,7 +19,7 @@ import SubscriberImpl from '../implements/SubscriberImpl';
  *   initialize() {
  *     this.subscribe('ADD_ITEM', (item) => {
  *       this._items.unshift(item);
- *       this.items$.push(this._items);
+ *       this.items$.next(this._items);
  *     });
  *   }
  * }
@@ -55,7 +55,7 @@ export default class Store {
    * @param {Action} action
    */
   plugAction(action) {
-    this.subscribe(action.eventStream$, this.plugStream$.push.bind(this.plugStream$));
+    this.subscribe(action.eventStream$, this.plugStream$.next.bind(this.plugStream$));
   }
 
   /**

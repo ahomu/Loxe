@@ -34,11 +34,11 @@ describe('SubscriberImpl', ()=> {
 
     test.subscribe(bus2, spy);
 
-    bus1.push(true);
-    bus2.push(true);
+    bus1.next(true);
+    bus2.next(true);
     assert(spy.calledTwice);
 
-    bus1.push(true);
+    bus1.next(true);
     assert(spy.calledThrice);
   });
 
@@ -54,16 +54,16 @@ describe('SubscriberImpl', ()=> {
     test.subscribe(bus2, spy);
     test.subscribe(bus3, spy);
 
-    bus1.push(true);
-    bus2.push(true);
-    bus3.push(true);
+    bus1.next(true);
+    bus2.next(true);
+    bus3.next(true);
     assert(spy.calledThrice);
 
     test.unsubscribeAll();
 
-    bus1.push(true);
-    bus2.push(true);
-    bus3.push(true);
+    bus1.next(true);
+    bus2.next(true);
+    bus3.next(true);
     assert(spy.calledThrice);
   });
 

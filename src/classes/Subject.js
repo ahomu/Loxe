@@ -50,9 +50,9 @@ export class RxSubjectBuilder {
       _subject[key] = BaseClass.prototype[key];
     }
 
-    _subject.push  = _subject.onNext;
-    _subject.error = _subject.onError;
-    _subject.end   = _subject.onCompleted;
+    _subject.next   = _subject.onNext;
+    _subject.throw  = _subject.onError;
+    _subject.return = _subject.onCompleted;
 
     BaseClass.call(_subject, initialValue);
 
@@ -110,9 +110,9 @@ export class KefirSubjectBuilder {
       _subject[key] = BaseClass.prototype[key];
     }
 
-    _subject.push  = _subject._emitValue;
-    _subject.error = _subject._emitError;
-    _subject.end   = _subject._emitEnd;
+    _subject.next      = _subject._emitValue;
+    _subject.throw     = _subject._emitError;
+    _subject.return    = _subject._emitEnd;
 
     BaseClass.call(_subject);
 

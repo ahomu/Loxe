@@ -43,7 +43,7 @@ export default class Action {
    * @param {*} payload
    */
   publish(eventName, payload) {
-    this.eventStream$.push({
+    this.eventStream$.next({
       event   : eventName,
       payload : payload
     });

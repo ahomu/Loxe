@@ -57,7 +57,7 @@ describe('@provideObservables', ()=> {
     let innerWrapped = TestUtils.findRenderedComponentWithType(root, ChildComponent._originalComponent);
 
     assert(innerWrapped.props.export === 666);
-    store.test$.push(13);
+    store.test$.next(13);
     assert(innerWrapped.props.export === 13);
 
     React.unmountComponentAtNode(container);
