@@ -47,6 +47,10 @@ browserify -r react -o libs.js
 
 ## Usage
 
+### Flux comparison example
+
+- [flux-comparison/loxe at master · ahomu/flux-comparison](https://github.com/ahomu/flux-comparison/tree/master/loxe)
+
 ### Minimal Example
 
 `Domain` that manages the `Store` and `Action`. Each feature of Flux provides to `Component`, using the Context feature of the React.
