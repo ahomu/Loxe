@@ -1,6 +1,6 @@
 {
   "name": "loxe",
-  "version": "0.3.2-alpha1",
+  "version": "0.4.0-alpha1",
   "description": "Flux architecture incorporates FRP library implementation. Observable is awesome!",
   "author": "ahomu",
   "main": "lib/index.js",
@@ -72,6 +72,7 @@
     "karma-cli": "0.0.4",
     "karma-firefox-launcher": "^0.1.6",
     "karma-mocha": "^0.1.10",
+    "karma-safari-launcher": "^0.1.1",
     "kefir": "^2.5.x",
     "kefir.combinetemplate": "^0.1.2",
     "licensify": "ahomu/licensify#add-version-info",

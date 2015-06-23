@@ -4,7 +4,7 @@
  * loxe:
  *   license: MIT
  *   author: ahomu
- *   version: 0.2.1
+ *   version: 0.4.0-alpha1
  * 
  * object-assign:
  *   license: MIT
@@ -80,27 +80,13 @@ var _implementsReflectionImpl = require('../implements/ReflectionImpl');
  */
 
 var Action = (function () {
-
-  /**
-   * @constructor
-   */
-
   function Action() {
     _classCallCheck(this, Action);
 
     this.eventStream$ = _Subject['default'].stream();
-
-    this.initialize();
   }
 
   _createClass(Action, [{
-    key: 'initialize',
-
-    /**
-     *
-     */
-    value: function initialize() {}
-  }, {
     key: 'publish',
 
     /**
@@ -108,7 +94,7 @@ var Action = (function () {
      * @param {*} payload
      */
     value: function publish(eventName, payload) {
-      this.eventStream$.push({
+      this.eventStream$.next({
         event: eventName,
         payload: payload
       });
@@ -140,8 +126,6 @@ var Action = (function () {
 
 exports['default'] = Action;
 
-// implements you want
-
 /**
  * @type {Kefir.Stream<ActionData>}
  * @private
@@ -154,6 +138,10 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
+var _react = (window.React);
+
+var React = _react;
+
 var _implementsReflectionImpl = require('../implements/ReflectionImpl');
 
 var _Action = require('./Action');
@@ -161,36 +149,22 @@ var _Action = require('./Action');
 var _Store = require('./Store');
 
 /**
- * Do not control application data in the domain, asynchronous processing also does not.
- * Application data that all keep in the Store.
- * Asynchronous processing should be implemented as external function.
+ * `Domain` that manages the `Store` and `Action`.
+ * Each feature of Flux provides to `Component`,
+ * using the Context feature of the React.
  *
  * @class Domain
  */
 
 var Domain = (function () {
-
-  /**
-   * @constructor
-   */
-
   function Domain() {
     _classCallCheck(this, Domain);
 
     this.stores = new Map();
     this.actions = new Map();
-
-    this.initialize();
   }
 
   _createClass(Domain, [{
-    key: 'initialize',
-
-    /**
-     *
-     */
-    value: function initialize() {}
-  }, {
     key: 'registerAction',
 
     /**
@@ -261,52 +235,13 @@ var Domain = (function () {
      * All `Store` subscribe to all `Action`'s Observable
      */
     value: function subscribeActionObservableFromStore() {
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
+      var _this = this;
 
-      try {
-        for (var _iterator = this.stores.values()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var store = _step.value;
-          var _iteratorNormalCompletion2 = true;
-          var _didIteratorError2 = false;
-          var _iteratorError2 = undefined;
-
-          try {
-            for (var _iterator2 = this.actions.values()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-              var action = _step2.value;
-
-              store.plugAction(action);
-            }
-          } catch (err) {
-            _didIteratorError2 = true;
-            _iteratorError2 = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion2 && _iterator2['return']) {
-                _iterator2['return']();
-              }
-            } finally {
-              if (_didIteratorError2) {
-                throw _iteratorError2;
-              }
-            }
-          }
-        }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator['return']) {
-            _iterator['return']();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
-      }
+      this.stores.forEach(function (store) {
+        _this.actions.forEach(function (action) {
+          store.plugAction(action);
+        });
+      });
     }
   }, {
     key: 'mountRootComponent',
@@ -316,7 +251,7 @@ var Domain = (function () {
      * @param {Element} mountNode
      * @returns {ReactComponent}
      */
-    value: function mountRootComponent(React, Component, mountNode) {
+    value: function mountRootComponent(Component, mountNode) {
       this.subscribeActionObservableFromStore();
       return React.render(React.createElement(Component, { domain: this }), mountNode);
     }
@@ -373,8 +308,6 @@ exports['default'] = Domain;
  * @type {Map<Function, Action>}
  */
 
-// implements you want
-
 },{"../implements/ReflectionImpl":6,"./Action":2,"./Store":4}],4:[function(require,module,exports){
 'use strict';
 
@@ -403,7 +336,7 @@ var _implementsSubscriberImpl = require('../implements/SubscriberImpl');
  *   initialize() {
  *     this.subscribe('ADD_ITEM', (item) => {
  *       this._items.unshift(item);
- *       this.items$.push(this._items);
+ *       this.items$.next(this._items);
  *     });
  *   }
  * }
@@ -413,27 +346,13 @@ var _implementsSubscriberImpl = require('../implements/SubscriberImpl');
  */
 
 var Store = (function () {
-
-  /**
-   * @constructor
-   */
-
   function Store() {
     _classCallCheck(this, Store);
 
     this.plugStream$ = _Subject['default'].stream();
-
-    this.initialize();
   }
 
   _createClass(Store, [{
-    key: 'initialize',
-
-    /**
-     *
-     */
-    value: function initialize() {}
-  }, {
     key: 'plugAction',
 
     /**
@@ -441,7 +360,7 @@ var Store = (function () {
      * @param {Action} action
      */
     value: function plugAction(action) {
-      this.subscribe(action.eventStream$, this.plugStream$.push.bind(this.plugStream$));
+      this.subscribe(action.eventStream$, this.plugStream$.next.bind(this.plugStream$));
     }
   }, {
     key: 'getEvent',
@@ -517,8 +436,6 @@ exports['default'] = Store;
  * @private
  */
 
-// implements you want
-
 },{"../implements/ReflectionImpl":6,"../implements/SubscriberImpl":7,"./Subject":5}],5:[function(require,module,exports){
 'use strict';
 
@@ -526,22 +443,22 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var RxSubjectBuilder = (function () {
+var RxBuilder = (function () {
 
   /**
    * @constructor
    * @param {Rx} Rx
    */
 
-  function RxSubjectBuilder(Rx) {
-    _classCallCheck(this, RxSubjectBuilder);
+  function RxBuilder(Rx) {
+    _classCallCheck(this, RxBuilder);
 
     this.MyRx = null;
 
     this.MyRx = Rx;
   }
 
-  _createClass(RxSubjectBuilder, [{
+  _createClass(RxBuilder, [{
     key: 'stream',
 
     /**
@@ -583,9 +500,9 @@ var RxSubjectBuilder = (function () {
         _subject[key] = BaseClass.prototype[key];
       }
 
-      _subject.push = _subject.onNext;
-      _subject.error = _subject.onError;
-      _subject.end = _subject.onCompleted;
+      _subject.next = _subject.onNext;
+      _subject['throw'] = _subject.onError;
+      _subject['return'] = _subject.onCompleted;
 
       BaseClass.call(_subject, initialValue);
 
@@ -593,27 +510,27 @@ var RxSubjectBuilder = (function () {
     }
   }]);
 
-  return RxSubjectBuilder;
+  return RxBuilder;
 })();
 
-exports.RxSubjectBuilder = RxSubjectBuilder;
+exports.RxBuilder = RxBuilder;
 
-var KefirSubjectBuilder = (function () {
+var KefirBuilder = (function () {
 
   /**
    * @constructor
    * @param {Kefir} Kefir
    */
 
-  function KefirSubjectBuilder(Kefir) {
-    _classCallCheck(this, KefirSubjectBuilder);
+  function KefirBuilder(Kefir) {
+    _classCallCheck(this, KefirBuilder);
 
     this.MyKefir = null;
 
     this.MyKefir = Kefir;
   }
 
-  _createClass(KefirSubjectBuilder, [{
+  _createClass(KefirBuilder, [{
     key: 'stream',
 
     /**
@@ -655,9 +572,9 @@ var KefirSubjectBuilder = (function () {
         _subject[key] = BaseClass.prototype[key];
       }
 
-      _subject.push = _subject._emitValue;
-      _subject.error = _subject._emitError;
-      _subject.end = _subject._emitEnd;
+      _subject.next = _subject._emitValue;
+      _subject['throw'] = _subject._emitError;
+      _subject['return'] = _subject._emitEnd;
 
       BaseClass.call(_subject);
 
@@ -670,10 +587,10 @@ var KefirSubjectBuilder = (function () {
     }
   }]);
 
-  return KefirSubjectBuilder;
+  return KefirBuilder;
 })();
 
-exports.KefirSubjectBuilder = KefirSubjectBuilder;
+exports.KefirBuilder = KefirBuilder;
 
 /**
  * @class Subject
@@ -717,7 +634,7 @@ var Subject = (function () {
     key: 'setBuilder',
 
     /**
-     * @param {RxSubjectBuilder|KefirSubjectBuilder} builderInstance
+     * @param {RxBuilder|KefirBuilder} builderInstance
      */
     value: function setBuilder(builderInstance) {
       Subject.builder = builderInstance;
@@ -950,7 +867,7 @@ function provideActions(Component, ActionClasses) {
         var _this = this;
 
         if (!this.context.getAction) {
-          throw new Error('The context does not have `getAction`.' + 'Make sure the ancestral component provides the domain context, use `@provideContext`.');
+          throw new Error('The context does not have `getAction`.' + 'Make sure the ancestral component provides ' + 'the domain context, use `@provideContext`.');
         }
 
         var actions = {};
@@ -1203,7 +1120,7 @@ function provideObservables(Component, receiveObservablesHandler) {
        */
       value: function componentWillMount() {
         if (!this.context.getObservables) {
-          throw new Error('The context does not have `getObservables`.' + 'Make sure the ancestral component provides the domain context, use `@provideContext`.');
+          throw new Error('The context does not have `getObservables`.' + 'Make sure the ancestral component provides ' + 'the domain context, use `@provideContext`.');
         }
 
         var observables = this.context.getObservables();
