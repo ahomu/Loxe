@@ -130,15 +130,19 @@ export class KefirBuilder {
  */
 export default class Subject {
 
-  static builder;
+  static _builder;
 
-  static combineTemplate;
+  static _combineTemplate;
+
+  static KefirBuilder = KefirBuilder;
+
+  static RxBuilder = RxBuilder;
 
   /**
    * @returns {Observable}
    */
   static stream() {
-    return Subject.builder.stream.apply(Subject.builder, arguments);
+    return Subject._builder.stream.apply(Subject._builder, arguments);
   }
 
   /**
@@ -146,7 +150,7 @@ export default class Subject {
    * @returns {Observable}
    */
   static property() {
-    return Subject.builder.property.apply(Subject.builder, arguments);
+    return Subject._builder.property.apply(Subject._builder, arguments);
   }
 
   /**
@@ -154,20 +158,20 @@ export default class Subject {
    * @returns {Observable}
    */
   static combineTemplate() {
-    return Subject.combineTemplate.apply(Subject.combineTemplate, arguments);
+    return Subject._combineTemplate.apply(Subject._combineTemplate, arguments);
   }
 
   /**
    * @param {RxBuilder|KefirBuilder} builderInstance
    */
   static setBuilder(builderInstance) {
-    Subject.builder = builderInstance;
+    Subject._builder = builderInstance;
   }
 
   /**
    * @param {Function} combineTemplateFn
    */
   static setCombineTemplate(combineTemplateFn) {
-    Subject.combineTemplate = combineTemplateFn;
+    Subject._combineTemplate = combineTemplateFn;
   }
 }
