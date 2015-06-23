@@ -5,7 +5,7 @@ import * as React  from 'react/addons';
 
 import Store  from '../../classes/Store';
 import Domain  from '../../classes/Domain';
-import Subject, { KefirSubjectBuilder } from '../../classes/Subject';
+import Subject, { KefirBuilder } from '../../classes/Subject';
 
 import provideObservables from '../provideObservables';
 import provideContext from '../provideContext';
@@ -45,7 +45,7 @@ describe('@provideObservables', ()=> {
   }
 
   it('@provideObservables', () => {
-    Subject.setBuilder(new KefirSubjectBuilder(Kefir));
+    Subject.setBuilder(new KefirBuilder(Kefir));
     Subject.setCombineTemplate(kefirCombineTemplate);
 
     let domain = new TestDomain();

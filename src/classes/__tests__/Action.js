@@ -4,9 +4,9 @@ import * as assert from 'power-assert';
 import * as Kefir  from 'kefir';
 
 import Action  from '../Action';
-import Subject, { KefirSubjectBuilder } from '../Subject';
+import Subject, { KefirBuilder } from '../Subject';
 
-Subject.setBuilder(new KefirSubjectBuilder(Kefir));
+Subject.setBuilder(new KefirBuilder(Kefir));
 
 describe('Action', ()=> {
 

@@ -1,6 +1,6 @@
 'use strict';
 
-export class RxSubjectBuilder {
+export class RxBuilder {
 
   /**
    * @type {Rx}
@@ -60,7 +60,7 @@ export class RxSubjectBuilder {
   }
 }
 
-export class KefirSubjectBuilder {
+export class KefirBuilder {
 
   /**
    * @type {Kefir}
@@ -158,7 +158,7 @@ export default class Subject {
   }
 
   /**
-   * @param {RxSubjectBuilder|KefirSubjectBuilder} builderInstance
+   * @param {RxBuilder|KefirBuilder} builderInstance
    */
   static setBuilder(builderInstance) {
     Subject.builder = builderInstance;

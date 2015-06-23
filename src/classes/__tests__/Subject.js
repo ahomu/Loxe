@@ -4,12 +4,12 @@ import * as assert from 'power-assert';
 import * as Kefir  from 'kefir';
 import * as Rx  from 'rx-lite';
 
-import Subject, { KefirSubjectBuilder, RxSubjectBuilder } from '../Subject';
+import Subject, { KefirBuilder, RxBuilder } from '../Subject';
 
 describe('Subject', ()=> {
 
   it('Kefir: `.stream()` will create stream', (done) => {
-    Subject.setBuilder(new KefirSubjectBuilder(Kefir));
+    Subject.setBuilder(new KefirBuilder(Kefir));
 
     let stream = Subject.stream();
     stream.next(100);
@@ -28,7 +28,7 @@ describe('Subject', ()=> {
   });
 
   it('Kefir: `.property()` will create stream that keep latest value', (done) => {
-    Subject.setBuilder(new KefirSubjectBuilder(Kefir));
+    Subject.setBuilder(new KefirBuilder(Kefir));
 
     let property = Subject.property(100);
     property.onValue(i => {
@@ -45,7 +45,7 @@ describe('Subject', ()=> {
   });
 
   it('Rx: `.stream()` will create stream', (done) => {
-    Subject.setBuilder(new RxSubjectBuilder(Rx));
+    Subject.setBuilder(new RxBuilder(Rx));
 
     let stream = Subject.stream();
     stream.next(100);
@@ -71,7 +71,7 @@ describe('Subject', ()=> {
   });
 
   it('Rx: `.property()` will create stream that keep latest value', (done) => {
-    Subject.setBuilder(new RxSubjectBuilder(Rx));
+    Subject.setBuilder(new RxBuilder(Rx));
 
     let property = Subject.property();
     property.next(100);

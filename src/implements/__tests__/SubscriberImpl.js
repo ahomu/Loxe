@@ -5,9 +5,9 @@ import * as sinon  from 'sinon';
 import * as Kefir  from 'kefir';
 
 import SubscriberImpl from '../SubscriberImpl';
-import Subject, { KefirSubjectBuilder } from '../../classes/Subject';
+import Subject, { KefirBuilder } from '../../classes/Subject';
 
-Subject.setBuilder(new KefirSubjectBuilder(Kefir));
+Subject.setBuilder(new KefirBuilder(Kefir));
 
 describe('SubscriberImpl', ()=> {
 

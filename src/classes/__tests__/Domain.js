@@ -8,9 +8,9 @@ import * as Kefir  from 'kefir';
 import Action  from '../Action';
 import Domain  from '../Domain';
 import Store   from '../Store';
-import Subject, { KefirSubjectBuilder } from '../Subject';
+import Subject, { KefirBuilder } from '../Subject';
 
-Subject.setBuilder(new KefirSubjectBuilder(Kefir));
+Subject.setBuilder(new KefirBuilder(Kefir));
 
 let TestUtils = React.addons.TestUtils;
 

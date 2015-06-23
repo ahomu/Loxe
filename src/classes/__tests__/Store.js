@@ -6,9 +6,9 @@ import * as Kefir  from 'kefir';
 
 import Action  from '../Action';
 import Store   from '../Store';
-import Subject, { KefirSubjectBuilder } from '../Subject';
+import Subject, { KefirBuilder } from '../Subject';
 
-Subject.setBuilder(new KefirSubjectBuilder(Kefir));
+Subject.setBuilder(new KefirBuilder(Kefir));
 
 describe('Store', ()=> {
 
