@@ -4,7 +4,7 @@
  * loxe:
  *   license: MIT
  *   author: ahomu
- *   version: 0.4.0-alpha1
+ *   version: 0.4.0
  * 
  * object-assign:
  *   license: MIT
@@ -608,7 +608,7 @@ var Subject = (function () {
      * @returns {Observable}
      */
     value: function stream() {
-      return Subject.builder.stream.apply(Subject.builder, arguments);
+      return Subject._builder.stream.apply(Subject._builder, arguments);
     }
   }, {
     key: 'property',
@@ -618,7 +618,7 @@ var Subject = (function () {
      * @returns {Observable}
      */
     value: function property() {
-      return Subject.builder.property.apply(Subject.builder, arguments);
+      return Subject._builder.property.apply(Subject._builder, arguments);
     }
   }, {
     key: 'combineTemplate',
@@ -628,7 +628,7 @@ var Subject = (function () {
      * @returns {Observable}
      */
     value: function combineTemplate() {
-      return Subject.combineTemplate.apply(Subject.combineTemplate, arguments);
+      return Subject._combineTemplate.apply(Subject._combineTemplate, arguments);
     }
   }, {
     key: 'setBuilder',
@@ -637,7 +637,7 @@ var Subject = (function () {
      * @param {RxBuilder|KefirBuilder} builderInstance
      */
     value: function setBuilder(builderInstance) {
-      Subject.builder = builderInstance;
+      Subject._builder = builderInstance;
     }
   }, {
     key: 'setCombineTemplate',
@@ -646,8 +646,16 @@ var Subject = (function () {
      * @param {Function} combineTemplateFn
      */
     value: function setCombineTemplate(combineTemplateFn) {
-      Subject.combineTemplate = combineTemplateFn;
+      Subject._combineTemplate = combineTemplateFn;
     }
+  }, {
+    key: 'KefirBuilder',
+    value: KefirBuilder,
+    enumerable: true
+  }, {
+    key: 'RxBuilder',
+    value: RxBuilder,
+    enumerable: true
   }]);
 
   return Subject;
