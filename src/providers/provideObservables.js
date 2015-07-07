@@ -5,6 +5,7 @@ import * as assign from 'object-assign';
 import Subject        from '../classes/Subject';
 import SubscriberImpl from '../implements/SubscriberImpl';
 import ReflectionImpl from '../implements/ReflectionImpl';
+import copyStatics    from '../utils/copy-statics';
 import decoratable    from '../utils/decoratable';
 
 /**
@@ -92,6 +93,8 @@ function provideObservables(Component, receiveObservablesHandler) {
       return React.createElement(Component, assign({}, this.props, this.state));
     }
   }
+
+  copyStatics(Component, ObservablesProvider);
 
   return ObservablesProvider;
 }

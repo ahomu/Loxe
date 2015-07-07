@@ -3,6 +3,7 @@
 import * as React  from 'react';
 import * as assign from 'object-assign';
 import ReflectionImpl from '../implements/ReflectionImpl';
+import copyStatics    from '../utils/copy-statics';
 import decoratable    from '../utils/decoratable';
 
 /**
@@ -57,6 +58,8 @@ function provideActions(Component, ActionClasses) {
       return React.createElement(Component, assign(actions, this.props));
     }
   }
+
+  copyStatics(Component, ActionsProvider);
 
   return ActionsProvider;
 }

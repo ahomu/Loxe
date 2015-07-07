@@ -3,6 +3,7 @@
 import * as React  from 'react';
 import Domain from '../classes/Domain';
 import ReflectionImpl from '../implements/ReflectionImpl';
+import copyStatics    from '../utils/copy-statics';
 import decoratable    from '../utils/decoratable';
 
 /**
@@ -76,6 +77,8 @@ function provideContext(Component) {
       return React.createElement(Component, this.props);
     }
   }
+
+  copyStatics(Component, ContextProvider);
 
   return ContextProvider;
 }
