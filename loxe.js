@@ -4,7 +4,7 @@
  * loxe:
  *   license: MIT
  *   author: ahomu
- *   version: 0.4.0
+ *   version: 0.5.0
  * 
  * object-assign:
  *   license: MIT
@@ -830,6 +830,8 @@ var assign = _objectAssign;
 
 var _implementsReflectionImpl = require('../implements/ReflectionImpl');
 
+var _utilsCopyStatics = require('../utils/copy-statics');
+
 var _utilsDecoratable = require('../utils/decoratable');
 
 /**
@@ -908,12 +910,14 @@ function provideActions(Component, ActionClasses) {
     return ActionsProvider;
   })(React.Component);
 
+  (0, _utilsCopyStatics['default'])(Component, ActionsProvider);
+
   return ActionsProvider;
 }
 
 exports['default'] = (0, _utilsDecoratable['default'])(provideActions);
 
-},{"../implements/ReflectionImpl":6,"../utils/decoratable":12,"object-assign":1}],10:[function(require,module,exports){
+},{"../implements/ReflectionImpl":6,"../utils/copy-statics":12,"../utils/decoratable":13,"object-assign":1}],10:[function(require,module,exports){
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -929,6 +933,8 @@ var React = _react;
 var _classesDomain = require('../classes/Domain');
 
 var _implementsReflectionImpl = require('../implements/ReflectionImpl');
+
+var _utilsCopyStatics = require('../utils/copy-statics');
 
 var _utilsDecoratable = require('../utils/decoratable');
 
@@ -1033,6 +1039,8 @@ function provideContext(Component) {
     return ContextProvider;
   })(React.Component);
 
+  (0, _utilsCopyStatics['default'])(Component, ContextProvider);
+
   return ContextProvider;
 }
 
@@ -1042,7 +1050,7 @@ exports['default'] = (0, _utilsDecoratable['default'])(provideContext);
  * @type {Object<string, function>}
  */
 
-},{"../classes/Domain":3,"../implements/ReflectionImpl":6,"../utils/decoratable":12}],11:[function(require,module,exports){
+},{"../classes/Domain":3,"../implements/ReflectionImpl":6,"../utils/copy-statics":12,"../utils/decoratable":13}],11:[function(require,module,exports){
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -1064,6 +1072,8 @@ var _classesSubject = require('../classes/Subject');
 var _implementsSubscriberImpl = require('../implements/SubscriberImpl');
 
 var _implementsReflectionImpl = require('../implements/ReflectionImpl');
+
+var _utilsCopyStatics = require('../utils/copy-statics');
 
 var _utilsDecoratable = require('../utils/decoratable');
 
@@ -1182,12 +1192,38 @@ function provideObservables(Component, receiveObservablesHandler) {
     return ObservablesProvider;
   })(React.Component);
 
+  (0, _utilsCopyStatics['default'])(Component, ObservablesProvider);
+
   return ObservablesProvider;
 }
 
 exports['default'] = (0, _utilsDecoratable['default'])(provideObservables);
 
-},{"../classes/Subject":5,"../implements/ReflectionImpl":6,"../implements/SubscriberImpl":7,"../utils/decoratable":12,"object-assign":1}],12:[function(require,module,exports){
+},{"../classes/Subject":5,"../implements/ReflectionImpl":6,"../implements/SubscriberImpl":7,"../utils/copy-statics":12,"../utils/decoratable":13,"object-assign":1}],12:[function(require,module,exports){
+'use strict';
+
+exports['default'] = copyStatics;
+var RESERVED_PROPS = {
+  arguments: true,
+  caller: true,
+  key: true,
+  length: true,
+  name: true,
+  prototype: true,
+  ref: true,
+  type: true
+};
+
+function copyStatics(fromClass, toObject) {
+  // copy statics
+  Object.getOwnPropertyNames(fromClass).filter(function (key) {
+    return fromClass.hasOwnProperty(key) && !RESERVED_PROPS[key];
+  }).forEach(function (key) {
+    toObject[key] = fromClass[key];
+  });
+}
+
+},{}],13:[function(require,module,exports){
 'use strict';
 
 exports['default'] = decoratable;

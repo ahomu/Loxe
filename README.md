@@ -2,9 +2,9 @@
 
 [![npm version][npm-image]][npm-url] [![build status][circle-image]][circle-url] [![Dependency Status][deps-image]][deps-url]
 
-Flux architecture incorporates FRP library implementation. Observable is awesome!
+Flux architecture with FRP library implementation. **Observable is awesome!**
 
-- The main purpose is mapping the Observables to props of the component
+- The main purpose is **mapping the Observables to props** of the component
 - Design with a focus on ES6-7.
 - Using the [Higher-order Components](https://gist.github.com/sebmarkbage/ef0bf1f338a7182b6775) with [decorator](https://github.com/wycats/javascript-decorators) instead of Mixin.
 - To follow the [ES Observable Proposal](https://github.com/zenparsing/es-observable) to the `Subject`.
@@ -351,7 +351,7 @@ class MyComponent extends React.Component {
 }
 ```
 
-#### @provideObservables
+#### `@provideObservables(fn: (observables) => templateObj)`
 
 Value of the Observable will be provided from the `Domain` mapped to the `this.props`.
 
