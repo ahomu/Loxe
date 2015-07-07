@@ -380,6 +380,26 @@ class MyComponent extends React.Component {
 }
 ```
 
+#### `@provideSideEffect()`
+
+Components that use this Decorator is to control the adverse effects of global available props
+
+```javascript
+@provideSideEffect()
+class MyComponent extends React.Component {
+  static handleSideEffect(propsList) {
+    let someOneVisible = propsList.some(props => props.isVisible);
+    let htmlElement    = document.body.parentNode;
+    
+    if (someOneVisible) {
+      htmlElement.classList.add('is-some-one-visible');
+    } else {
+      htmlElement.classList.remove('is-some-one-visible');
+    }
+  }
+}
+```
+
 ## Tests
 
 ```
