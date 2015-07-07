@@ -4,11 +4,11 @@
 
 Flux architecture incorporates FRP library implementation. Observable is awesome!
 
-- Mapping the Observables to props of the component
-- ES6 classes to the target. do not use a Mixin.
-- As a decorator using the [Higher-order Components](https://gist.github.com/sebmarkbage/ef0bf1f338a7182b6775) instead.
-- Wherever possible, declarative statements should be.
+- The main purpose is mapping the Observables to props of the component
+- Design with a focus on ES6-7.
+- Using the [Higher-order Components](https://gist.github.com/sebmarkbage/ef0bf1f338a7182b6775) with [decorator](https://github.com/wycats/javascript-decorators) instead of Mixin.
 - To follow the [ES Observable Proposal](https://github.com/zenparsing/es-observable) to the `Subject`.
+- Wherever possible, declarative statements should be.
 
 ## Installation
 
@@ -406,10 +406,6 @@ class MyComponent extends React.Component {
 npm install
 npm test
 ```
-
-## Example
-
-- [ahomu/flux-comparison](https://github.com/ahomu/flux-comparison/tree/master/loxe): fork of [flux-comparison](https://github.com/voronianski/flux-comparison).
 
 ## Contributing
 
