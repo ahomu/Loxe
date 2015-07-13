@@ -2,13 +2,16 @@
 
 [![npm version][npm-image]][npm-url] [![build status][circle-image]][circle-url] [![Dependency Status][deps-image]][deps-url]
 
-Flux architecture with FRP library implementation. **Observable is awesome!**
+Flux implementation that runs together with FRP libraries. **Observable is awesome!**
 
-- The main purpose is **mapping the Observables to props** of the component
-- Design with a focus on ES6-7.
+- Flux implementation, **Observables and Props can be mapped to declaratively**.
 - Using the [Higher-order Components](https://gist.github.com/sebmarkbage/ef0bf1f338a7182b6775) with [decorator](https://github.com/wycats/javascript-decorators) instead of Mixin.
 - To follow the [ES Observable Proposal](https://github.com/zenparsing/es-observable) to the `Subject`.
-- Wherever possible, declarative statements should be.
+- You can choose FRP library that [Reactive-Extensions/RxJS](https://github.com/Reactive-Extensions/RxJS) or [rpominov/kefir](https://github.com/rpominov/kefir).
+
+![Loxe Phalanx](http://upload.wikimedia.org/wikipedia/commons/3/32/Phalanx.png)
+
+via. [Ancient Macedonian battle tactics - Wikipedia, the free encyclopedia](http://en.wikipedia.org/wiki/Ancient_Macedonian_battle_tactics "Ancient Macedonian battle tactics - Wikipedia, the free encyclopedia")
 
 ## Installation
 
