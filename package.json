@@ -76,7 +76,7 @@
     "karma-safari-launcher": "^0.1.1",
     "kefir": "^2.5.x",
     "kefir.combinetemplate": "^0.1.2",
-    "licensify": "ahomu/licensify#add-version-info",
+    "licensify": "^1.2.0",
     "mocha": "^2.2.1",
     "power-assert": "^0.10.2",
     "react": "^0.13.3",
